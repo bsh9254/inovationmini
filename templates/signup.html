@@ -51,7 +51,7 @@
             column-gap: 10px;
             row-gap: 10px;
             grid-template-areas: "email-label email-input no-recurrence"
-                "password-label password-input ."
+                "password-label password-input password-meter"
                 "photo-label photo-input photo-detail"
                 "nickname-label nickname-input ."
                 "introduction-label introduction-input .";
@@ -107,6 +107,23 @@
             grid-area: introduction-input;
         }
 
+        #password-meter {
+            grid-area: password-meter;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #password-meter p {
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        #password-meter .progress {
+            width: 80%;
+        }
+
         #grid label {
             display: flex;
             align-items: center;
@@ -131,6 +148,13 @@
                         <button class="btn btn-primary" id="no-recurrence">중복확인</button>
                         <label for="password" class="form-label">비밀번호</label>
                         <input type="password" class="form-control" id="password" required>
+                        <div id="password-meter">
+                            <p>최소 6자리</p>
+                            <div class="progress">
+                                <div id="score-bar" class="progress-bar progress-bar-striped progress-bar-animated">
+                                </div>
+                            </div>
+                        </div>
                         <label for="photo" class="form-label">프로필 사진</label>
                         <input type="file" class="form-control" id="photo">
                         <p id="photo-detail">사이즈는 160x160 이하, 용량은 3MB 이하의 사진 파일만 올려주세요.</p>
@@ -144,6 +168,81 @@
             </section>
         </div>
     </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            function scorePassword(password) {
+                let score = 0;
+                if (!password) {
+                    return score;
+                }
+
+                let letters = new Object();
+                for (let i = 0; i < password.length; i++) {
+                    letters[password[i]] = (letters[password[i]] || 0) + 1;
+                    score += 5.0 / letters[password[i]];
+                }
+
+                let variations = {
+                    digits: /\d/.test(password),
+                    lower: /[a-z]/.test(password),
+                    upper: /[A-Z]/.test(password),
+                    nonWords: /\W/.test(password),
+                }
+
+                let variationCount = 0;
+                for (let check in variations) {
+                    variationCount += (variations[check] == true) ? 1 : 0;
+                }
+                score += (variationCount - 1) * 10;
+
+                return parseInt(score);
+            }
+
+            function checkPasswordStrength(score) {
+                if (score > 80) {
+                    return "강함";
+                } else if (score > 60) {
+                    return "보통";
+                } else if (score >= 30) {
+                    return "약함";
+                } else {
+                    return "최소 6자리";
+                }
+            }
+
+            $("#password").on("input", event => {
+                const password = $(event.target).val();
+                const passwordScore = scorePassword(password);
+                const scoreParagraph = $("#password-meter p");
+                const scoreProgressBar = $("#score-bar");
+                const strength = checkPasswordStrength(passwordScore);
+                scoreParagraph.text(strength);
+                console.log(strength);
+                switch (strength) {
+                    case "강함":
+                        scoreProgressBar.css("width", "100%");
+                        scoreProgressBar.removeClass();
+                        scoreProgressBar.addClass("progress-bar").addClass("bg-info");
+                        break;
+                    case "보통":
+                        scoreProgressBar.css("width", "66%");
+                        scoreProgressBar.removeClass();
+                        scoreProgressBar.addClass("progress-bar").addClass("bg-warning");
+                        break;
+                    case "약함":
+                        scoreProgressBar.css("width", "33%");
+                        scoreProgressBar.removeClass();
+                        scoreProgressBar.addClass("progress-bar").addClass("bg-danger");
+                        break;
+                    default:
+                        scoreProgressBar.css("width", "0%");
+                        break;
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
