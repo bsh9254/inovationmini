@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 600px;
+        }
+
+        #logo img {
+            display: block;
+            margin: auto;
+        }
+
+        form h1 {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        #input-photo p {
+            font-size: 0.8rem;
+        }
+
+        button[type=submit] {
+            display: block;
+            width: 100px;
+            margin: auto;
+        }
+
+        #grid {
+            display: grid;
+            grid-template-columns: 120px auto 100px;
+            column-gap: 10px;
+            row-gap: 10px;
+            grid-template-areas: "email-label email-input no-recurrence"
+                "password-label password-input ."
+                "photo-label photo-input photo-detail"
+                "nickname-label nickname-input ."
+                "introduction-label introduction-input .";
+            margin: 30px 0;
+        }
+
+        label[for="username"] {
+            grid-area: email-label;
+        }
+
+        input#username {
+            grid-area: email-input;
+        }
+
+        button#no-recurrence {
+            grid-area: no-recurrence;
+        }
+
+        label[for="password"] {
+            grid-area: password-label;
+        }
+
+        input#password {
+            grid-area: password-input;
+        }
+
+        label[for="photo"] {
+            grid-area: photo-label;
+        }
+
+        input#photo {
+            grid-area: photo-input;
+        }
+
+        p#photo-detail {
+            grid-area: photo-detail;
+            font-size: 0.6rem;
+        }
+
+        label[for="nickname"] {
+            grid-area: nickname-label;
+        }
+
+        input#nickname {
+            grid-area: nickname-input;
+        }
+
+        label[for="introduction"] {
+            grid-area: introduction-label;
+        }
+
+        input#introduction {
+            grid-area: introduction-input;
+        }
+
+        #grid label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+    <title>회원가입</title>
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <section id="logo">
+                <img src="logo.png" alt="Glampedia Logo">
+            </section>
+            <section id="form">
+                <form>
+                    <h1>글램피디아 회원가입</h1>
+                    <div id="grid">
+                        <label for="username" class="form-label">이메일 (아이디)</label>
+                        <input type="email" class="form-control" id="username" required>
+                        <button class="btn btn-primary" id="no-recurrence">중복확인</button>
+                        <label for="password" class="form-label">비밀번호</label>
+                        <input type="password" class="form-control" id="password" required>
+                        <label for="photo" class="form-label">프로필 사진</label>
+                        <input type="file" class="form-control" id="photo">
+                        <p id="photo-detail">사이즈는 160x160 이하, 용량은 3MB 이하의 사진 파일만 올려주세요.</p>
+                        <label for="nickname" class="form-label">닉네임</label>
+                        <input type="text" class="form-control" id="nickname" required>
+                        <label for="introduction" class="form-label">자기소개</label>
+                        <input type="text" class="form-control" id="introduction">
+                    </div>
+                    <button type="submit" class="btn btn-primary">회원가입</button>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+
+</html>
