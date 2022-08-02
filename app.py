@@ -38,6 +38,9 @@ def signup_process():
     if found_user:
         return render_template("signup.html", already_taken = True)
     password = request.form["password"]
+    password_repeat = request.form["password-repeat"]
+    if not (password == password_repeat):
+        return render_template("signup.html", invalid_password = True)
     photo = request.files["photo"]
     nickname = request.form["nickname"]
     introduction = request.form["introduction"]

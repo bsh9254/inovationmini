@@ -52,6 +52,7 @@
             row-gap: 10px;
             grid-template-areas: "email-label email-input no-redundancy"
                 "password-label password-input password-meter"
+                "password-repeat-label password-repeat password-repeat-checker"
                 "photo-label photo-input photo-detail"
                 "nickname-label nickname-input ."
                 "introduction-label introduction-input .";
@@ -129,6 +130,26 @@
             align-items: center;
             justify-content: center;
         }
+
+        label[for="password-repeat"] {
+            grid-area: password-repeat-label;
+        }
+
+        #password-repeat {
+            grid-area: password-repeat;
+        }
+
+        #password-repeat-checker {
+            grid-area: password-repeat-checker;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #password-repeat-checker p {
+            text-align: center;
+            margin: 0;
+        }
     </style>
     <title>회원가입</title>
 </head>
@@ -141,9 +162,11 @@
             </section>
             <section id="form">
                 <form action="/signup" method="POST" enctype="multipart/form-data">
-                    <h1>글램피디아 회원가입</h1>
                     {% if already_taken %}
                     <p style="text-align: center; color: red;">해당 아이디가 이미 존재합니다.</p>
+                    {% endif %}
+                    {% if invalid_password %}
+                    <p style="text-align: center; color: red;">비밀번호가 일치하지 않습니다.</p>
                     {% endif %}
                     <div id="grid">
                         <label for="username" class="form-label">이메일 (아이디)</label>
@@ -152,6 +175,12 @@
                         <button class="btn btn-primary" id="no-redundancy">중복확인</button>
                         <label for="password" class="form-label">비밀번호</label>
                         <input type="password" class="form-control" id="password" name="password" required>
+                        <label for="password-repeat" class="form-label">비밀번호 확인</label>
+                        <input type="password" class="form-control" id="password-repeat" name="password-repeat"
+                            required>
+                        <div id="password-repeat-checker">
+                            <p style="font-size: 0.6rem;">비밀번호가 일치하지 않습니다.</p>
+                        </div>
                         <div id="password-meter">
                             <p>최소 6자리</p>
                             <div class="progress">
@@ -194,6 +223,16 @@
                         }
                     }
                 })
+            });
+
+            $("#password-repeat").on("input", event => {
+                const repeatedPassword = $(event.target).val();
+                const password = $("#password").val();
+                if (repeatedPassword === password) {
+                    $("#password-repeat-checker p").text("비밀번호가 일치합니다.");
+                } else {
+                    $("#password-repeat-checker p").text("비밀번호가 일치하지 않습니다.");
+                }
             });
 
             function scorePassword(password) {
