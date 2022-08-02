@@ -10,69 +10,164 @@
     <title>마이페이지</title>
 
     <style>
+
     html, body {
         width: 100%;
         height: 100%;
         margin: 0px;
     }
 
+    /* sidebar 부분 */
     #side {
-        background-color: rgb(232, 224, 207);
+        background-color: rgba(130, 186, 116, 0.6);
         position: relative;
 
-        min-width: 200px;
+        min-width: 260px;
         height: 100%;
         float: left;
-
-        /* margin: 20px 10px 0px 20px; */
     }
 
-    #main {
-        background-color: rgb(239, 229, 223);
-        position: relative;
 
-        float: left;
-        
-        width: 80%;
-        height: 100%;
-
-        /* padding: 10px; */
-        /* margin: 20px 20px 0px 10px; */
-    }
     .logout {
         position: absolute;
         left: 90px;
         bottom: 8%;
     }
-    .profileimg {
-        background-color: rgb(222, 205, 229);
-        width: 160px;
-        height: 160px;
+
+    /* body main 부분 */
+    #main {
+        position: relative;
+        
+        left: 275px;
+        height: 100%;
     }
+
+    /* main 상단 */
+    .upper {
+        background-color: rgb(255, 255, 255);
+        
+        position: relative;
+        
+        height: 40%;
+        padding-top: 10vh;
+    }
+
+    /* main 좌상단 프로필사진 */
+    .leftupper {
+        background-color: rgb(255, 255, 255);
+
+        width: 185px;
+        height: 185px;
+        float: left;
+    }
+
+    /* main 우상단 id,닉,소개 */
+    .rightupper {
+        background-color: rgb(255, 255, 255);
+
+        display: inline-block;
+        margin-left: 1vh;
+    }
+
+    .email {
+        background-color: rgb(255, 255, 255);
+
+        text-align: center;
+
+        width: 400px;
+        height: 50px;
+        padding: 10px;
+        margin: 1vh;
+    }
+    .nickname {
+        background-color: rgb(255, 255, 255);
+
+        text-align: center;
+
+
+        width: 400px;
+        height: 50px;
+        padding: 10px;
+        margin: 1vh;
+    }
+    .description {
+        background-color: rgb(255, 255, 255);
+
+        text-align: center;
+
+
+        width: 400px;
+        height: 50px;
+        padding: 10px;
+        margin: 1vh;
+    }
+
+    /* main 하단 */
+    .lower {
+        background-color: rgb(255, 255, 255);
+
+        height: 60%;
+        padding-top: 2vh;
+    }
+    .review {
+        background-color: rgb(255, 255, 255);
+
+        display: flex;
+
+        width: 600px;
+        height: 150px;
+        padding: 20px;
+        margin: 20px;
+
+        align-items: center;
+    }
+    textarea {
+        margin: vh;
+    }
+
     </style>
 </head>
 
 <body>
     <aside id="side">
-        <a href="메인페이지">
+        <a href="mainpage.html">
             <img src="https://ifh.cc/g/azRkC0.png" alt="Glampedia Logo">
         </a>
         <div class="logout">
-            <button type="submit" class="btn btn-primary">로그아웃</button>
+            <button type="submit" onclick="location.href='로그인'" class="btn btn-primary">로그아웃</button>
         </div>
     </aside>
+
     <section id="main">
-        <div class="profileimg">
-            <img src="" alt="프로필 사진">
+        <div class="upper">
+            <div class="leftupper">
+                <img src="" alt="프로필 사진">
+            </div>
+
+            <div class="rightupper">
+                <div class="email">
+                    이메일
+                </div>
+
+                <div class="nickname">
+                    닉네임
+                </div>
+
+                <div class="description">
+                    자기소개
+                </div>
+            </div>
+        </div>   
+
+        <div class="lower">
+            <div class="review">
+                <textarea cols="80" rows="5"> 리뷰 내용 </textarea>
+            </div>
+            <div class="review">
+                <textarea cols="80" rows="5"> 리뷰 내용 </textarea>
+            </div>
         </div>
-        <div id="grid">
-            <label for="username" class="form-label">이메일 (아이디)</label>
-            <!-- <input type="email" class="form-control" id="username" > -->
-            <label for="nickname" class="form-label">닉네임</label>
-            <!-- <input type="text" class="form-control" id="nickname" > -->
-            <label for="introduction" class="form-label">자기소개</label>
-            <!-- <input type="text" class="form-control" id="introduction"> -->
-        </div>
+        
     </section>
 </body>
 
