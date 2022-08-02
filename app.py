@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect, jsonify, make_response
 from pymongo import MongoClient
 from flask_jwt_extended import *
+from bson import BSON
 
 app = Flask(__name__)
 
@@ -34,12 +35,14 @@ def login():
 def signup_process():
     username = request.form["username"]
     password = request.form["password"]
-    photo = request.files["photo"]
+    photo = request.files["photo"].read()
     nickname = request.form["nickname"]
     introduction = request.form["introduction"]
+    photo_data = BSON(photo)
     user = {
         "username": username,
         "password": password,
+        "photo": photo_data,
         "nickname": nickname,
         "introduction": introduction
     }
@@ -60,12 +63,6 @@ def login_process():
     else:
         print("No user")
     return redirect(url_for("main"))
-
-@app.route("/protected", methods = ["GET"])
-@jwt_required
-def protected():
-    current_user = get_jwt_identity()
-    return jsonify(logged_in_as = current_user), 200
 
 if __name__ == "__main__":
     app.run("0.0.0.0", port = 5000, debug = True)
