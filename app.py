@@ -1,10 +1,10 @@
 from flask import Flask, jsonify, render_template, request, url_for, redirect, make_response
 from pymongo import MongoClient
 from flask_jwt_extended import *
-import requests
 
 app = Flask(__name__)
 
+# JWT Configurations.
 app.config.update(
     JWT_SECRET_KEY = "GLAMPEDIA",
     JWT_TOKEN_LOCATION = ["cookies"]
@@ -12,6 +12,7 @@ app.config.update(
 
 jwt = JWTManager(app)
 
+# MongoDB Atlas 접속.
 client = MongoClient("mongodb+srv://glampedia:1234@cluster0.uf0pxtj.mongodb.net/?retryWrites=true&w=majority")
 glampediaDB = client["Glampedia"]
 userDB = glampediaDB["User"]
@@ -123,5 +124,6 @@ def protected():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as = current_user), 200
 
+# 서버 구동.
 if __name__ == "__main__":
     app.run("0.0.0.0", port = 5000, debug = True)
