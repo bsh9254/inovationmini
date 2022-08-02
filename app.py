@@ -5,7 +5,8 @@ from flask_jwt_extended import *
 app = Flask(__name__)
 
 app.config.update(
-    JWT_SECRET_KEY = "GLAMPEDIA"
+    JWT_SECRET_KEY = "GLAMPEDIA",
+    JWT_TOKEN_LOCATION = ["cookies"]
 )
 
 jwt = JWTManager(app)
@@ -37,6 +38,9 @@ def signup_process():
     if found_user:
         return render_template("signup.html", already_taken = True)
     password = request.form["password"]
+    password_repeat = request.form["password-repeat"]
+    if not (password == password_repeat):
+        return render_template("signup.html", invalid_password = True)
     photo = request.files["photo"]
     nickname = request.form["nickname"]
     introduction = request.form["introduction"]
@@ -61,7 +65,7 @@ def login_process():
     if user is not None:
         access_token = create_access_token(identity = username)
         response = make_response(render_template("login.html"))
-        response.set_cookie("access_token", access_token)
+        response.set_cookie("access_token_cookie", access_token)
         return response
     else:
         return render_template("login.html", no_user = True)
@@ -78,6 +82,12 @@ def check_redundancy():
         return jsonify({
             "message": "Good to go"
         })
+
+@app.route("/protected", methods = ["GET"])
+@jwt_required()
+def protected():
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as = current_user), 200
 
 if __name__ == "__main__":
     app.run("0.0.0.0", port = 5000, debug = True)
