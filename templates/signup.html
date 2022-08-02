@@ -140,7 +140,7 @@
                 <img src={{ url_for("static", filename="logo.png" ) }} alt="Glampedia Logo">
             </section>
             <section id="form">
-                <form action="/signup" method="POST">
+                <form action="/signup" method="POST" enctype="multipart/form-data">
                     <h1>글램피디아 회원가입</h1>
                     <div id="grid">
                         <label for="username" class="form-label">이메일 (아이디)</label>
@@ -220,7 +220,6 @@
                 const scoreProgressBar = $("#score-bar");
                 const strength = checkPasswordStrength(passwordScore);
                 scoreParagraph.text(strength);
-                console.log(strength);
                 switch (strength) {
                     case "강함":
                         scoreProgressBar.css("width", "100%");
