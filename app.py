@@ -61,7 +61,7 @@ def login_process():
         response.set_cookie("access_token", access_token)
         return response
     else:
-        print("No user")
+        return render_template("login.html", no_user = True)
     return redirect(url_for("main"))
 
 if __name__ == "__main__":
