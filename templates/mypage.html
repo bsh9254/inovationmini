@@ -12,61 +12,43 @@
     <style>
 
     html, body {
-        width: 100%;
         height: 100%;
-        margin: 0px;
-    }
-
-    /* sidebar 부분 */
-    #side {
-        background-color: rgba(130, 186, 116, 0.6);
-        position: relative;
-
-        min-width: 260px;
-        height: 100%;
-        float: left;
+        background: linear-gradient(90deg, rgba(130, 186, 116, 0.6) 15%, rgba(0,38,84,0) 15%), linear-gradient(90deg, rgba(255,255,255,1) 85%, rgba(130, 186, 116, 0.6) 85%);
     }
 
 
     .logout {
         position: absolute;
-        left: 90px;
+        margin-left: 5%;
         bottom: 8%;
     }
 
-    /* body main 부분 */
+    /* body main */
     #main {
+        text-align: center;
+
         position: relative;
         
         left: 275px;
         height: 100%;
     }
 
-    /* main 상단 */
-    .upper {
-        background-color: rgb(255, 255, 255);
-        
-        position: relative;
-        
-        height: 40%;
-        padding-top: 10vh;
-    }
-
-    /* main 좌상단 프로필사진 */
-    .leftupper {
+    /* main 프로필사진 */
+    .profileimg {
         background-color: rgb(255, 255, 255);
 
         width: 185px;
         height: 185px;
         float: left;
+        margin-left: 20vh;
     }
 
-    /* main 우상단 id,닉,소개 */
+    /* main id,닉,소개 */
     .rightupper {
         background-color: rgb(255, 255, 255);
 
         display: inline-block;
-        margin-left: 1vh;
+        margin-right: 50vh;
     }
 
     .email {
@@ -102,13 +84,6 @@
         margin: 1vh;
     }
 
-    /* main 하단 */
-    .lower {
-        background-color: rgb(255, 255, 255);
-
-        height: 60%;
-        padding-top: 2vh;
-    }
     .review {
         background-color: rgb(255, 255, 255);
 
@@ -116,8 +91,10 @@
 
         width: 600px;
         height: 150px;
+
         padding: 20px;
-        margin: 20px;
+        margin-top: 10vh;
+        margin-left: 20vh;
 
         align-items: center;
     }
@@ -129,18 +106,15 @@
 </head>
 
 <body>
-    <aside id="side">
-        <a href="mainpage.html">
-            <img src="https://ifh.cc/g/azRkC0.png" alt="Glampedia Logo">
-        </a>
-        <div class="logout">
-            <button type="submit" onclick="location.href='로그인'" class="btn btn-primary">로그아웃</button>
-        </div>
-    </aside>
+    <a href="mainpage.html">
+        <img src="https://ifh.cc/g/azRkC0.png" alt="Glampedia Logo" width="15%">
+    </a>
+    <div class="logout">
+        <button type="submit" onclick="location.href='로그인'" class="btn btn-primary">로그아웃</button>
+    </div>
 
     <section id="main">
-        <div class="upper">
-            <div class="leftupper">
+            <div class="profileimg">
                 <img src="" alt="프로필 사진">
             </div>
 
@@ -156,19 +130,17 @@
                 <div class="description">
                     자기소개
                 </div>
-            </div>
         </div>   
 
-        <div class="lower">
             <div class="review">
                 <textarea cols="80" rows="5"> 리뷰 내용 </textarea>
             </div>
             <div class="review">
                 <textarea cols="80" rows="5"> 리뷰 내용 </textarea>
             </div>
-        </div>
-        
+
     </section>
+
 </body>
 
 </html>
