@@ -137,7 +137,7 @@
     <main>
         <div class="container">
             <section id="logo">
-                <img src="logo.png" alt="Glampedia Logo">
+                <img src={{ url_for("static", filename="logo.png" ) }} alt="Glampedia Logo">
             </section>
             <section id="form">
                 <form action="/signup" method="POST">
