@@ -50,7 +50,7 @@
             grid-template-columns: 120px auto 100px;
             column-gap: 10px;
             row-gap: 10px;
-            grid-template-areas: "email-label email-input no-recurrence"
+            grid-template-areas: "email-label email-input no-redundancy"
                 "password-label password-input password-meter"
                 "photo-label photo-input photo-detail"
                 "nickname-label nickname-input ."
@@ -66,8 +66,8 @@
             grid-area: email-input;
         }
 
-        button#no-recurrence {
-            grid-area: no-recurrence;
+        button#no-redundancy {
+            grid-area: no-redundancy;
         }
 
         label[for="password"] {
@@ -146,7 +146,7 @@
                         <label for="username" class="form-label">이메일 (아이디)</label>
                         <input type="email" class="form-control" id="username" name="username"
                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
-                        <button class="btn btn-primary" id="no-recurrence">중복확인</button>
+                        <button class="btn btn-primary" id="no-redundancy">중복확인</button>
                         <label for="password" class="form-label">비밀번호</label>
                         <input type="password" class="form-control" id="password" name="password" required>
                         <div id="password-meter">
@@ -173,6 +173,26 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
+            $("#no-redundancy").on("click", event => {
+                event.preventDefault();
+                const username = $("#username").val();
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:5000/redundancy_check",
+                    data: {
+                        username: username
+                    },
+                    success: response => {
+                        const message = response.message;
+                        if (message == "Already taken") {
+                            alert("해당 아이디가 이미 존재합니다.")
+                        } else if (message == "Good to go") {
+                            alert("사용할 수 있는 아이디입니다.")
+                        }
+                    }
+                })
+            });
+
             function scorePassword(password) {
                 let score = 0;
                 if (!password) {

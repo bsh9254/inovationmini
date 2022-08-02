@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, make_response
+from flask import Flask, jsonify, render_template, request, url_for, redirect, make_response
 from pymongo import MongoClient
 from flask_jwt_extended import *
 
@@ -62,7 +62,19 @@ def login_process():
         return response
     else:
         return render_template("login.html", no_user = True)
-    return redirect(url_for("main"))
+
+@app.route("/redundancy_check", methods = ["POST"])
+def check_redundancy():
+    username = request.form["username"]
+    user = userDB.find_one({"username": username})
+    if user:
+        return jsonify({
+            "message": "Already taken"
+        })
+    else:
+        return jsonify({
+            "message": "Good to go"
+        })
 
 if __name__ == "__main__":
     app.run("0.0.0.0", port = 5000, debug = True)
