@@ -1,7 +1,14 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, jsonify, make_response
 from pymongo import MongoClient
+from flask_jwt_extended import *
 
 app = Flask(__name__)
+
+app.config.update(
+    JWT_SECRET_KEY = "GLAMPEDIA"
+)
+
+jwt = JWTManager(app)
 
 client = MongoClient("mongodb+srv://glampedia:1234@cluster0.uf0pxtj.mongodb.net/?retryWrites=true&w=majority")
 glampediaDB = client["Glampedia"]
@@ -44,7 +51,21 @@ def signup_process():
 def login_process():
     username = request.form["username"]
     password = request.form["password"]
+    user = userDB.find_one({"username": username, "password": password})
+    if user is not None:
+        access_token = create_access_token(identity = username)
+        response = make_response(render_template("login.html"))
+        response.set_cookie("access_token", access_token)
+        return response
+    else:
+        print("No user")
     return redirect(url_for("main"))
+
+@app.route("/protected", methods = ["GET"])
+@jwt_required
+def protected():
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as = current_user), 200
 
 if __name__ == "__main__":
     app.run("0.0.0.0", port = 5000, debug = True)
