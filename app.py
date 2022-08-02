@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 app.config.update(
     JWT_SECRET_KEY = "GLAMPEDIA",
-    JWT_TOKEN_LOCATION = ["cookies", "query_string"]
+    JWT_TOKEN_LOCATION = ["cookies"]
 )
 
 jwt = JWTManager(app)
