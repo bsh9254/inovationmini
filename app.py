@@ -70,6 +70,7 @@ def login_process():
     else:
         return render_template("login.html", no_user = True)
 
+# 아이디 중복 확인 라우팅.
 @app.route("/redundancy_check", methods = ["POST"])
 def check_redundancy():
     username = request.form["username"]
@@ -83,6 +84,7 @@ def check_redundancy():
             "message": "Good to go"
         })
 
+# Authorization 테스트 페이지.
 @app.route("/protected", methods = ["GET"])
 @jwt_required()
 def protected():
