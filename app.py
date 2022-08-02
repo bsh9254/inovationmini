@@ -15,10 +15,25 @@ client = MongoClient("mongodb+srv://glampedia:1234@cluster0.uf0pxtj.mongodb.net/
 glampediaDB = client["Glampedia"]
 userDB = glampediaDB["User"]
 
-# 메인 페이지 라우팅.
-@app.route("/", methods = ["GET"])
-def main():
-    return "Hello World!!"
+#메인 페이지 라우팅
+@app.route('/')
+def home():
+    return render_template('mainpage.html')
+
+# 메인페이지 GET
+@app.route("/mainpg", methods=["GET"])
+def main_get():
+    mainpage=list(db.Glamping_info.find({},{'_id':False}))
+
+    #tops=list(db.Glamping.find({'star':{"$gte":4.5}},{'_id':False}))
+    return jsonify({'mains':mainpage})
+
+# 상세페이지 라우팅
+@app.route("/detailpg")
+def detailinto():
+    return render_template("detail.html")
+
+
 
 # 회원가입 페이지 라우팅.
 @app.route("/signup", methods = ["GET"])
