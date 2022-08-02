@@ -1,51 +1,83 @@
-from flask import Flask, render_template, request, jsonify
-app = Flask(__name__)
-import requests
-from bs4 import BeautifulSoup
-
+from flask import Flask, jsonify, render_template, request, url_for, redirect, make_response
 from pymongo import MongoClient
+from flask_jwt_extended import *
 
-client = MongoClient('mongodb+srv://sanghoonpai:jade1213@cluster0.gthpaza.mongodb.net/?retryWrites=true&w=majority')
-db = client.dbsparta
+app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return render_template('index.html')
+app.config.update(
+    JWT_SECRET_KEY = "GLAMPEDIA"
+)
 
-@app.route("/movie", methods=["POST"])
-def movie_post():
-    url_receive=request.form['url_give']
-    star_receive=request.form['star_give']
-    comment_receive = request.form['comment_give']
+jwt = JWTManager(app)
 
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
-    data = requests.get(url_receive, headers=headers)
+client = MongoClient("mongodb+srv://glampedia:1234@cluster0.uf0pxtj.mongodb.net/?retryWrites=true&w=majority")
+glampediaDB = client["Glampedia"]
+userDB = glampediaDB["User"]
 
-    soup = BeautifulSoup(data.text, 'html.parser')
+# 메인 페이지 라우팅.
+@app.route("/", methods = ["GET"])
+def main():
+    return "Hello World!!"
 
-    # 여기에 코딩을 해서 meta tag를 먼저 가져와보겠습니다.
+# 회원가입 페이지 라우팅.
+@app.route("/signup", methods = ["GET"])
+def signup():
+    return render_template("signup.html")
 
-    title = soup.select_one('meta[property="og:title"]')['content']
-    image = soup.select_one('meta[property="og:image"]')['content']
-    desc = soup.select_one('meta[property="og:description"]')['content']
+# 로그인 페이지 라우팅.
+@app.route("/login", methods = ["GET"])
+def login():
+    return render_template("login.html")
 
-    doc={
-        'title':title,
-        'image':image,
-        'desc':desc,
-        'star':star_receive,
-        'comment':comment_receive
-
+# 회원가입 처리 라우팅.
+@app.route("/signup", methods = ["POST"])
+def signup_process():
+    username = request.form["username"]
+    found_user = userDB.find_one({"username": username})
+    if found_user:
+        return render_template("signup.html", already_taken = True)
+    password = request.form["password"]
+    photo = request.files["photo"]
+    nickname = request.form["nickname"]
+    introduction = request.form["introduction"]
+    name = username.replace("@", ".")
+    extension = photo.filename.split(".")[-1]
+    photo.save(f"static/photos/{name}.{extension}")
+    user = {
+        "username": username,
+        "password": password,
+        "nickname": nickname,
+        "introduction": introduction
     }
-    db.movies.insert_one(doc)
-    return jsonify({'msg':'Saved!'})
+    userDB.insert_one(user)
+    return redirect(url_for("login"))
 
-@app.route("/movie", methods=["GET"])
-def movie_get():
-    movielist=list(db.movies.find({},{'_id':False}))
+# 로그인 처리 라우팅.
+@app.route("/login", methods = ["POST"])
+def login_process():
+    username = request.form["username"]
+    password = request.form["password"]
+    user = userDB.find_one({"username": username, "password": password})
+    if user is not None:
+        access_token = create_access_token(identity = username)
+        response = make_response(render_template("login.html"))
+        response.set_cookie("access_token", access_token)
+        return response
+    else:
+        return render_template("login.html", no_user = True)
 
-    return jsonify({'movies':movielist})
+@app.route("/redundancy_check", methods = ["POST"])
+def check_redundancy():
+    username = request.form["username"]
+    user = userDB.find_one({"username": username})
+    if user:
+        return jsonify({
+            "message": "Already taken"
+        })
+    else:
+        return jsonify({
+            "message": "Good to go"
+        })
 
-if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
+if __name__ == "__main__":
+    app.run("0.0.0.0", port = 5000, debug = True)
