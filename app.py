@@ -33,6 +33,9 @@ def login():
 @app.route("/signup", methods = ["POST"])
 def signup_process():
     username = request.form["username"]
+    found_user = userDB.find_one({"username": username})
+    if found_user:
+        return render_template("signup.html", already_taken = True)
     password = request.form["password"]
     photo = request.files["photo"]
     nickname = request.form["nickname"]
