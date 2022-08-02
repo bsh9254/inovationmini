@@ -140,15 +140,15 @@
                 <img src="logo.png" alt="Glampedia Logo">
             </section>
             <section id="form">
-                <form>
+                <form action="/signup" method="POST">
                     <h1>글램피디아 회원가입</h1>
                     <div id="grid">
                         <label for="username" class="form-label">이메일 (아이디)</label>
-                        <input type="email" class="form-control" id="username"
+                        <input type="email" class="form-control" id="username" name="username"
                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
                         <button class="btn btn-primary" id="no-recurrence">중복확인</button>
                         <label for="password" class="form-label">비밀번호</label>
-                        <input type="password" class="form-control" id="password" required>
+                        <input type="password" class="form-control" id="password" name="password" required>
                         <div id="password-meter">
                             <p>최소 6자리</p>
                             <div class="progress">
@@ -157,12 +157,12 @@
                             </div>
                         </div>
                         <label for="photo" class="form-label">프로필 사진</label>
-                        <input type="file" class="form-control" id="photo" accept="image/*">
+                        <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
                         <p id="photo-detail">사이즈는 160x160 이하, 용량은 3MB 이하의 사진 파일만 올려주세요.</p>
                         <label for="nickname" class="form-label">닉네임</label>
-                        <input type="text" class="form-control" id="nickname" required>
+                        <input type="text" name="nickname" class="form-control" id="nickname" required>
                         <label for="introduction" class="form-label">자기소개</label>
-                        <input type="text" class="form-control" id="introduction">
+                        <input type="text" name="introduction" class="form-control" id="introduction">
                     </div>
                     <button type="submit" class="btn btn-primary">회원가입</button>
                 </form>
