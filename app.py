@@ -66,8 +66,9 @@ def signup_process():
     nickname = request.form["nickname"]
     introduction = request.form["introduction"]
     name = username.replace("@", ".")
-    extension = photo.filename.split(".")[-1]
-    photo.save(f"static/photos/{name}.{extension}")
+    if photo.filename != "":
+        extension = photo.filename.split(".")[-1]
+        photo.save(f"static/photos/{name}.{extension}")
     user = {
         "username": username,
         "password": password,
