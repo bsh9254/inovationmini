@@ -1,7 +1,6 @@
-from flask import Flask, render_template, request, url_for, redirect, jsonify, make_response
+from flask import Flask, render_template, request, url_for, redirect, make_response
 from pymongo import MongoClient
 from flask_jwt_extended import *
-from bson import BSON
 
 app = Flask(__name__)
 
@@ -48,7 +47,7 @@ def signup_process():
         "introduction": introduction
     }
     userDB.insert_one(user)
-    return redirect(url_for("main"))
+    return redirect(url_for("login"))
 
 # 로그인 처리 라우팅.
 @app.route("/login", methods = ["POST"])
@@ -62,7 +61,7 @@ def login_process():
         response.set_cookie("access_token", access_token)
         return response
     else:
-        print("No user")
+        return render_template("login.html", no_user = True)
     return redirect(url_for("main"))
 
 if __name__ == "__main__":
