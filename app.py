@@ -35,14 +35,15 @@ def login():
 def signup_process():
     username = request.form["username"]
     password = request.form["password"]
-    photo = request.files["photo"].read()
+    photo = request.files["photo"]
     nickname = request.form["nickname"]
     introduction = request.form["introduction"]
-    photo_data = BSON(photo)
+    name = username.replace("@", ".")
+    extension = photo.filename.split(".")[-1]
+    photo.save(f"static/photos/{name}.{extension}")
     user = {
         "username": username,
         "password": password,
-        "photo": photo_data,
         "nickname": nickname,
         "introduction": introduction
     }
