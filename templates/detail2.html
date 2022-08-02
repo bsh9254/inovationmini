@@ -101,6 +101,61 @@
         }
 
     </style>
+    <script>
+        <!--        로딩하면 set_temp()와 show_comment()를 불러옴 -->
+        $(document).ready(function () {
+            show_reviews();
+        });
+
+        function show_reviews() {
+            $('#review-box').empty()
+            $.ajax({
+                type: 'GET',
+                url: '/reviews',
+                data: {},
+                success: function (response) {
+                    let rows = response['reviews']
+                    for (let i = 0; i < rows.length; i++) {
+                        let comment = rows[i]['comment']
+                        let star = rows[i]['star']
+
+                        let star_image = '⭐'.repeat(star)
+
+                        let temp_html = `<div class="quote_card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                    <p class="saved-header">
+                                                        <option class="saved-star">${star_image}</option>
+                                                        <option class="saved-star-value">${star}</option>
+                                                        <option class="saved-user">캠핑러</option>
+                                                    </p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                        $('#review-box').append(temp_html)
+                    }
+                }
+            });
+        }
+
+        function save_comment() {
+            let comment = $('#comment').val()
+            let star = $('#star').val()
+
+            $.ajax({
+                type: "POST",
+                url: "/reviews",
+                data: { comment_give:comment, star_give:star},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            })
+        }
+
+
+    </script>
 </head>
 
 <body>
@@ -120,66 +175,27 @@
             <!--평점 및 후기 등록하기-->
             <div class="mypost">
                 <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupSelect01">평점</label>
-                    <select class="form-select" id="inputGroupSelect01">
+                    <label class="input-group-text" for="star">평점</label>
+                    <select class="form-select" id="star" >
                         <option selected>--선택하기--</option>
                         <option value="1">⭐</option>
                         <option value="2">⭐⭐</option>
                         <option value="3">⭐⭐⭐</option>
-                        <option value="3">⭐⭐⭐⭐</option>
-                        <option value="3">⭐⭐⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
                     </select>
 
                 </div>
                 <div class="comment_btn">
-                    <textarea class="form-control" placeholder="댓글로 후기를 남겨주세요." id="floatingTextarea"></textarea>
-                    <label for="floatingTextarea"></label>
-                    <button type="button" class="btn btn-success btn-lg">등록하기</button>
+                    <textarea class="form-control" placeholder="댓글로 후기를 남겨주세요." id="comment"></textarea>
+                    <label for="comment"></label>
+                    <button type="button" onclick="save_comment()" class="btn btn-success btn-lg">등록하기</button>
                 </div>
 
 
             </div>
             <!-- 캠핑장 리뷰 후기-->
-            <div class="quote_card">
-
-                <div class="card-body">
-                    <blockquote class="blockquote mb-0">
-                        <p class="saved-header">
-                            <option class="saved-star">⭐⭐⭐</option>
-                            <option class="saved-star-value">3</option>
-                            <option class="saved-user">캠핑러</option>
-                        </p>
-                        <p>너무 좋아요!</p>
-                    </blockquote>
-                </div>
-            </div>
-            <div class="quote_card">
-
-                <div class="card-body">
-                    <blockquote class="blockquote mb-0">
-                        <p class="saved-header">
-                            <option class="saved-star">⭐⭐⭐</option>
-                            <option class="saved-star-value">3</option>
-                            <option class="saved-user">캠핑러</option>
-                        </p>
-                        <p>너무 좋아요!</p>
-                    </blockquote>
-                </div>
-            </div>
-            <div class="quote_card">
-
-                <div class="card-body">
-                    <blockquote class="blockquote mb-0">
-                        <p class="saved-header">
-                            <option class="saved-star">⭐⭐⭐</option>
-                            <option class="saved-star-value">3</option>
-                            <option class="saved-user">캠핑러</option>
-                        </p>
-                        <p>너무 좋아요!</p>
-                    </blockquote>
-                </div>
-            </div>
-            <div class="quote_card">
+            <div class="quote_card" id="review-box">
 
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
