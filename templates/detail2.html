@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <title>스파르타코딩클럽 | 부트스트랩 연습하기</title>
+    <style>
+        .parent-page {
+            display: flex;
+            border: 1px dotted;
+            padding: 10px;
+        }
+
+
+        .left {
+            float: left;
+            width: 20%;
+            background-color: darkseagreen;
+        }
+
+        .center {
+            float: left;
+            width: 60%;
+            background-color: white;
+            margin: 50px 50px 0 50px;
+
+        }
+
+        .right {
+            float: left;
+            width: 20%;
+            background-color: darkseagreen;
+        }
+
+        .quote_card {
+            width: 100%;
+            height: 150px;
+
+            margin: 20px auto 0 auto;
+
+            box-shadow: 0 0 3px 0 gray;
+            padding: 20px;;
+        }
+
+
+        .profile {
+            display: flex;
+            flex-direction: column;
+            justify-items: center;
+            align-items: center;
+
+            margin-top: 200px;
+        }
+
+        .comment_btn {
+            height: 80px;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            align-items: center;
+
+        }
+
+        .comment_btn > .form-control {
+            width: 70%;
+            margin-right: 20px;
+            font-size: 20px;
+        }
+
+        .comment_btn > .btn btn-success {
+            width: 30%;
+        }
+
+        .saved-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            align-items: center;
+        }
+
+        .grass-star {
+            margin: 20px 0px 20px 0px
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="parent-page">
+        <div class="child left">
+            <img src="../static/glampedia_logo.png" class="card-img-top" width="100" height="300">
+       </div>
+        <div class="child center">
+            <h1>파인벨리 글램핑</h1>
+            <h3>글램핑장 소개, 아주 휴식하기에 쾌적한 공간입니다.</h3>
+            <p></p>
+            <p>주소 : 서울 은평구 북한산로 242</p>
+            <img src="../static/map.png" width="800" height="500">
+
+            <p class="grass-star" style="font-size:40px">⭐ 4.8 </p>
+
+            <!--평점 및 후기 등록하기-->
+            <div class="mypost">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">평점</label>
+                    <select class="form-select" id="inputGroupSelect01">
+                        <option selected>--선택하기--</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="3">⭐⭐⭐⭐</option>
+                        <option value="3">⭐⭐⭐⭐⭐</option>
+                    </select>
+
+                </div>
+                <div class="comment_btn">
+                    <textarea class="form-control" placeholder="댓글로 후기를 남겨주세요." id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea"></label>
+                    <button type="button" class="btn btn-success btn-lg">등록하기</button>
+                </div>
+
+
+            </div>
+            <!-- 캠핑장 리뷰 후기-->
+            <div class="quote_card">
+
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p class="saved-header">
+                            <option class="saved-star">⭐⭐⭐</option>
+                            <option class="saved-star-value">3</option>
+                            <option class="saved-user">캠핑러</option>
+                        </p>
+                        <p>너무 좋아요!</p>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="quote_card">
+
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p class="saved-header">
+                            <option class="saved-star">⭐⭐⭐</option>
+                            <option class="saved-star-value">3</option>
+                            <option class="saved-user">캠핑러</option>
+                        </p>
+                        <p>너무 좋아요!</p>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="quote_card">
+
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p class="saved-header">
+                            <option class="saved-star">⭐⭐⭐</option>
+                            <option class="saved-star-value">3</option>
+                            <option class="saved-user">캠핑러</option>
+                        </p>
+                        <p>너무 좋아요!</p>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="quote_card">
+
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p class="saved-header">
+                            <option class="saved-star">⭐⭐⭐</option>
+                            <option class="saved-star-value">3</option>
+                            <option class="saved-user">캠핑러</option>
+                        </p>
+                        <p>너무 좋아요!</p>
+                    </blockquote>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="child right">
+            <div class="profile"><img src="https://www.freeiconspng.com/thumbs/awesome-face-png/awesome-face-png-1.png"
+                                      width="100" , height="100">
+                <p class="nickname">이름</p>
+                <p>안녕하세요. 캠핑초보입니다</p></div>
+        </div>
+    </div>
+
+</body>
+
+
+</html>

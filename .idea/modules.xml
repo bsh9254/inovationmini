@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/mainpage.iml" filepath="$PROJECT_DIR$/.idea/mainpage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/glempedia.iml" filepath="$PROJECT_DIR$/.idea/glempedia.iml" />
     </modules>
   </component>
 </project>
