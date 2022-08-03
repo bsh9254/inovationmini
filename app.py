@@ -2,6 +2,7 @@ from flask import Flask, jsonify, render_template, request, url_for, redirect, m
 from pymongo import MongoClient
 from flask_jwt_extended import *
 from datetime import *
+import os
 
 app = Flask(__name__)
 
@@ -106,6 +107,7 @@ def signup_process():
     if photo.filename != "":
         extension = photo.filename.split(".")[-1]
         filename = f"{name}.{extension}"
+        os.makedirs("./static/photos", exist_ok = True)
         photo.save(f"static/photos/{filename}")
     user = {
         "username": username,
