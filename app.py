@@ -140,6 +140,10 @@ def login_process():
 @app.route("/redundancy_check", methods = ["POST"])
 def check_redundancy():
     username = request.form["username"]
+    if username == "":
+        return jsonify({
+            "message": "Empty"
+        })
     user = userDB.find_one({"username": username})
     if user:
         return jsonify({
