@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, request, url_for, redirect, make_response
 from pymongo import MongoClient
 from flask_jwt_extended import *
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
@@ -67,13 +68,16 @@ def signup_process():
     nickname = request.form["nickname"]
     introduction = request.form["introduction"]
     name = username.replace("@", ".")
+    filename = ""
     if photo.filename != "":
         extension = photo.filename.split(".")[-1]
-        photo.save(f"static/photos/{name}.{extension}")
+        filename = f"{name}.{extension}"
+        photo.save(f"static/photos/{filename}")
     user = {
         "username": username,
         "password": password,
         "nickname": nickname,
+        "filename": filename,
         "introduction": introduction
     }
     userDB.insert_one(user)
@@ -116,6 +120,17 @@ def logout():
     response = make_response(redirect("/"))
     response.delete_cookie("access_token_cookie")
     return response
+
+# 마이 페이지 라우팅.
+@app.route("/mypage", methods = ["GET"])
+@jwt_required(optional = True)
+def mypage():
+    current_user = get_jwt_identity()
+    if current_user is None:
+        return redirect(url_for("login"))
+    else:
+        user = userDB.find_one({"username": current_user})
+        return render_template("mypage.html", username = user["username"], nickname = user["nickname"], introduction = user["introduction"], filename = user["filename"])
 
 # Authorization 테스트 페이지.
 @app.route("/protected", methods = ["GET"])
