@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <title>스파르타코딩클럽 | 부트스트랩 연습하기</title>
+    <style>
+        .parent-page {
+            display: flex;
+            border: 1px dotted;
+            padding: 10px;
+        }
+
+
+        .left {
+            float: left;
+            width: 20%;
+            background-color: white;
+        }
+
+        .center {
+            float: left;
+            width: 60%;
+            background-color: white;
+            margin: 50px 50px 0px 50px;
+
+        }
+
+        .right {
+            float: left;
+            width: 20%;
+            background-color: gray;
+        }
+
+        .quote_card {
+            width: 100%;
+
+            margin: 20px auto 0 auto;
+
+            box-shadow: 0px 0px 3px 0px gray;
+            padding: 20px;;
+        }
+
+
+        .profile {
+            display: flex;
+            flex-direction: column;
+            justify-items: center;
+            align-items: center;
+
+            margin-top: 200px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="parent-page">
+        <div class="child left">
+            <img src="../static/glampedia_logo.png"class="card-img-top" width="100" height="300">
+       </div>
+        <div class="child center">
+            <h1>글램핑장 이름</h1>
+            <img src="data:image/jpeg;base64,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" width="800" height="500">
+            <p>글램핑장 소개, 아주 휴식하기에 쾌적한 공간입니다.</p>
+            <div class="mypost">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="댓글로 후기를 남겨주세요." id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea"></label>
+                </div>
+                <div class="my-btn">
+                    <button type="button" class="btn btn-dark">후기남기기</button>
+                </div>
+
+
+            </div>
+            <div class="quote_card">
+
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p>너무 좋아요!</p>
+                        <footer class="blockquote-footer">캠핑러<cite title="Source Title"></cite>
+                        </footer>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="quote_card">
+
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p>너무 좋아요!</p>
+                        <footer class="blockquote-footer">캠핑러<cite title="Source Title"></cite>
+                        </footer>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="quote_card">
+
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p>너무 좋아요!</p>
+                        <footer class="blockquote-footer">캠핑러<cite title="Source Title"></cite>
+                        </footer>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+        <div class="child right">
+            <div class="profile"><img src="https://www.freeiconspng.com/thumbs/awesome-face-png/awesome-face-png-1.png"
+                                      width="100" , height="100">
+                <p class="nickname">이름</p>
+                <p>안녕하세요. 캠핑초보입니다</p></div>
+        </div>
+    </div>
+
+</body>
+
+
+</html>
