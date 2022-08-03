@@ -15,47 +15,45 @@
         height: 100%;
         background: linear-gradient(90deg, rgba(130, 186, 116, 0.6) 15%, rgba(0,38,84,0) 15%), linear-gradient(90deg, rgba(255,255,255,1) 85%, rgba(130, 186, 116, 0.6) 85%);
     }
-
     .logout {
         position: absolute;
         margin-left: 5%;
         bottom: 8%;
     }
-
-    /* body main */
+    /* main section */
     #main {
+        padding-left: 16%;
+
         text-align: center;
-
-        position: relative;
-        
-        left: 275px;
-        height: 100%;
     }
-
-    /* main 프로필사진 */
+    /* main > 프로필사진 */
     .profileimg {
-        background-color: rgb(255, 255, 255);
+        background-color: rgb(252, 252, 252);
 
         width: 185px;
         height: 185px;
-        float: left;
-        margin-left: 20vh;
-    }
 
-    /* main id,닉,소개 */
-    .rightupper {
+        float: left;
+
+        margin-left: 16%;
+
+        overflow: auto;
+    }
+    /* main > id,닉,소개 */
+    .info {
         background-color: rgb(255, 255, 255);
 
         display: inline-block;
-        margin-right: 50vh;
-    }
+        width: 30%;
+        margin-right: 16%;
+        padding-left: 3%;
 
+        text-align: center;
+    }
     .email {
         background-color: rgb(255, 255, 255);
 
-        text-align: center;
-
-        width: 400px;
+        width: 80%;
         height: 50px;
         padding: 10px;
         margin: 1vh;
@@ -63,9 +61,7 @@
     .nickname {
         background-color: rgb(255, 255, 255);
 
-        text-align: center;
-
-        width: 400px;
+        width: 80%;
         height: 50px;
         padding: 10px;
         margin: 1vh;
@@ -73,32 +69,30 @@
     .description {
         background-color: rgb(255, 255, 255);
 
-        text-align: center;
-
-        width: 400px;
+        width: 80%;
         height: 50px;
         padding: 10px;
         margin: 1vh;
-    }
 
+        overflow: scroll;
+    }
     .review {
         background-color: rgb(255, 255, 255);
 
-        display: flex;
+        width: auto;
+        height: 200px;
 
-        width: 600px;
-        height: 150px;
-
-        padding: 20px;
-        margin-top: 10vh;
-        margin-left: 20vh;
-
-        align-items: center;
+        margin-top: 1%;
+        margin-left: 16%;
+        margin-right: 29%;
+        padding: 1%;
     }
-    textarea {
-        margin: vh;
-    }
+    .textbox {
 
+        border: 1px solid gray;
+        box-shadow: 0px 0px 1px 0px gray;
+        height: 90%;
+    }
     </style>
 </head>
 
@@ -107,14 +101,13 @@
         <img src="https://ifh.cc/g/azRkC0.png" alt="Glampedia Logo" width="15%">
     </a>
     <div class="logout">
-        <button type="submit" onclick="location.href='로그인'" class="btn btn-primary">로그아웃</button>
+        <button type="submit" onclick="location.href='login.html'" class="btn btn-primary">로그아웃</button>
     </div>
-
     <section id="main">
             <div class="profileimg">
                 <img src="" alt="프로필 사진">
             </div>
-            <div class="rightupper">
+            <div class="info">
                 <div class="email">
                     이메일
                 </div>
@@ -126,16 +119,17 @@
                 <div class="description">
                     자기소개
                 </div>
-            </div>   
-            <div class="review">
-                <textarea cols="80" rows="5"> 리뷰 내용 </textarea>
             </div>
             <div class="review">
-                <textarea cols="80" rows="5"> 리뷰 내용 </textarea>
+                <div class="textbox">
+                    리뷰 내용1
+                </div>
+            </div>
+            <div class="review">
+                <div class="textbox">
+                    리뷰 내용2
+                </div>
             </div>
     </section>
-
 </body>
-
 </html>
-
