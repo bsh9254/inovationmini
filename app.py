@@ -66,8 +66,12 @@ def detailinto(num):
     for i in range(0,len(review_list)):
         sum += int(review_list[i]['star'])
 
-    a_star = sum / len(review_list)
-    avg_star = round(a_star, 1)
+    if sum != 0:
+        a_star = sum / len(review_list)
+        avg_star = round(a_star, 1)
+    else:
+        avg_star =0
+
     print(avg_star)
 
     if user is not None:
