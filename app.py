@@ -4,6 +4,7 @@ from flask_jwt_extended import *
 
 app = Flask(__name__)
 
+# JWT Configurations.
 app.config.update(
     JWT_SECRET_KEY = "GLAMPEDIA",
     JWT_TOKEN_LOCATION = ["cookies"]
@@ -11,19 +12,27 @@ app.config.update(
 
 jwt = JWTManager(app)
 
+# MongoDB Atlas 접속.
 client = MongoClient("mongodb+srv://glampedia:1234@cluster0.uf0pxtj.mongodb.net/?retryWrites=true&w=majority")
 glampediaDB = client["Glampedia"]
 userDB = glampediaDB["User"]
 
 #메인 페이지 라우팅
-@app.route('/')
+@app.route("/", methods = ["GET"])
+@jwt_required(optional = True)
 def home():
-    return render_template('mainpage.html')
+    current_user = get_jwt_identity()
+    user = userDB.find_one({"username": current_user})
+    if user is not None:
+        return render_template("mainpage.html", current_user = user["nickname"])
+    else:
+        return render_template("mainpage.html")
 
 # 메인페이지 GET
 @app.route("/mainpg", methods=["GET"])
+@jwt_required(optional = True)
 def main_get():
-    mainpage=list(db.Glamping_info.find({},{'_id':False}))
+    mainpage=list(glampediaDB.Glamping_info.find({},{'_id':False}))
 
     #tops=list(db.Glamping.find({'star':{"$gte":4.5}},{'_id':False}))
     return jsonify({'mains':mainpage})
@@ -32,8 +41,6 @@ def main_get():
 @app.route("/detailpg")
 def detailinto():
     return render_template("detail.html")
-
-
 
 # 회원가입 페이지 라우팅.
 @app.route("/signup", methods = ["GET"])
@@ -60,8 +67,9 @@ def signup_process():
     nickname = request.form["nickname"]
     introduction = request.form["introduction"]
     name = username.replace("@", ".")
-    extension = photo.filename.split(".")[-1]
-    photo.save(f"static/photos/{name}.{extension}")
+    if photo.filename != "":
+        extension = photo.filename.split(".")[-1]
+        photo.save(f"static/photos/{name}.{extension}")
     user = {
         "username": username,
         "password": password,
@@ -69,7 +77,10 @@ def signup_process():
         "introduction": introduction
     }
     userDB.insert_one(user)
-    return redirect(url_for("login"))
+    access_token = create_access_token(identity = username)
+    response = make_response(redirect("/"))
+    response.set_cookie("access_token_cookie", access_token)
+    return response
 
 # 로그인 처리 라우팅.
 @app.route("/login", methods = ["POST"])
@@ -79,12 +90,13 @@ def login_process():
     user = userDB.find_one({"username": username, "password": password})
     if user is not None:
         access_token = create_access_token(identity = username)
-        response = make_response(render_template("login.html"))
+        response = make_response(redirect("/"))
         response.set_cookie("access_token_cookie", access_token)
         return response
     else:
         return render_template("login.html", no_user = True)
 
+# 아이디 중복 확인 라우팅.
 @app.route("/redundancy_check", methods = ["POST"])
 def check_redundancy():
     username = request.form["username"]
@@ -98,11 +110,20 @@ def check_redundancy():
             "message": "Good to go"
         })
 
+# 로그아웃 처리 라우팅.
+@app.route("/logout", methods = ["GET"])
+def logout():
+    response = make_response(redirect("/"))
+    response.delete_cookie("access_token_cookie")
+    return response
+
+# Authorization 테스트 페이지.
 @app.route("/protected", methods = ["GET"])
 @jwt_required()
 def protected():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as = current_user), 200
 
+# 서버 구동.
 if __name__ == "__main__":
     app.run("0.0.0.0", port = 5000, debug = True)
