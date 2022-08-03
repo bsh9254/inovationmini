@@ -171,11 +171,16 @@ def logout():
 @jwt_required(optional = True)
 def mypage():
     current_user = get_jwt_identity()
+    user = userDB.find_one({"username": current_user})
+
     if current_user is None:
         return redirect(url_for("login"))
     else:
-        user = userDB.find_one({"username": current_user})
-        return render_template("mypage.html", user = user)
+        return render_template("mypage.html",
+                               current_user_name=user["nickname"],
+                               current_user_img="photos/" + user["filename"],
+                               current_user_intro=user["introduction"],
+                               current_user_email=user["username"])
 
 # Authorization 테스트 페이지.
 @app.route("/protected", methods = ["GET"])
