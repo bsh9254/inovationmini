@@ -137,7 +137,11 @@ def signup_process():
     if photo.filename != "":
         extension = photo.filename.split(".")[-1]
         filename = f"{name}.{extension}"
-        os.makedirs("./static/photos", exist_ok = True)
+        try:
+            original_umask = os.umask(0)
+            os.makedirs("./static/photos", 0o0777, exist_ok=True)
+        finally:
+            os.umask(original_umask)
         photo.save(f"static/photos/{filename}")
     user = {
         "username": username,
