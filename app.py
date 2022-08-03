@@ -50,8 +50,23 @@ def main_get():
 
 # 상세페이지 라우팅
 @app.route("/detailpg")
+@jwt_required(optional = True)
 def detailinto():
-    return render_template("detail.html")
+    current_user = get_jwt_identity()
+    user = userDB.find_one({"username": current_user})
+    if user is not None:
+        return render_template("detail.html",
+                               current_user_name=user["nickname"],
+                               current_user_intro=user["introduction"],
+                               current_user_img="photos/" + user["filename"])
+    else:
+        return render_template("detail.html")
+
+# 상세 페이지 GET
+@app.route("/Glamping", methods=["GET"])
+def glamping_get():
+    g_list = list(glampediaDB.Glamping_info.find({}, {'_id': False}))
+    return jsonify({'g_list': g_list})
 
 # 회원가입 페이지 라우팅.
 @app.route("/signup", methods = ["GET"])
@@ -152,3 +167,4 @@ def protected():
 # 서버 구동.
 if __name__ == "__main__":
     app.run("0.0.0.0", port = 5000, debug = True)
+
