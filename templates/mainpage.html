@@ -20,7 +20,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-    <title>글램핑 ㄱㄱ</title>
+    <title>글램피디아</title>
 
     <style>
         .loginbutton {
@@ -31,9 +31,9 @@
         /*상단 글씨 부분*/
         .header_img {
             float: left;
-            width: 230px;
-            height: 180px;
-            margin-left: 22px;
+            width: 160px;
+            height: 130px;
+            margin-left: 25px;
             margin-top: 15px;
 
         }
@@ -70,7 +70,7 @@
 
             padding-top: 35px;
             margin: 0 auto;
-            width: 1200px;
+            width: 1000px;
         }
 
         .d-block {
@@ -81,23 +81,20 @@
         }
     </style>
     <script>
-        function hey() {
-            console.log("dd")
-        }
-
         $(document).ready(function () {
-            listing();
+            //listing();
         });
 
         function listing() {
+            /*
             $.ajax({
                 type: 'GET',
-                url: '/mainpg',
+                url: '/',
                 data: {},
                 success: function (response) {
 
                     let rows = response['mains']
-                    /*
+
                     let tops = response['top']
 
 
@@ -117,32 +114,8 @@
                                </div>`
 
                     $('#carousel-box').append(temp)
-                    */
-
-                    for (let j = 0; j < rows.length; j++) {
-                        let name = rows[j]['name']
-                        let comment = rows[j]['comment']
-                        let address = rows[j]['address']
-                        let image = rows[j]['img']
-                        let star = rows[j]['star']
-                        let num = rows[j]['num']
-                        star = '⭐'.repeat(star)
-                        let temp = `<div class="col">
-                                        <div class="card h-100">
-                                            <a href="#" onclick=detail(${num})><img src="${image}" class="card-img-top"></a>
-
-                                            <div class="card-body">
-                                                <h5 class="card-title">${name}</h5>
-                                                <p class="card-text">${address}</p>
-                                                <p>${star}</p>
-                                                <p class="mycomment">${comment}</p>
-                                            </div>
-                                        </div>
-                                    </div> `
-                        $('#cards-box').append(temp)
-                    }
                 }
-            })
+            })*/
         }
         function detail(data) {
             localStorage.setItem('mainnum', data);
@@ -182,6 +155,7 @@
                     Up</button></a>
             {% endif %}
         </div>
+
         <a href="#" onclick="window.location.href='/'"><img class="header_img" src={{ url_for("static",
                 filename="logo.png" )}}></a>
         {% if current_user %}
@@ -191,20 +165,32 @@
         <h1 class="header_point">안녕하세요, Guest님!<p></p>
             금주의 글램핑 추천 장소입니다.</h1>
         {% endif %}
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-
     </div>
 
     <div class="wrap">
         <div class="mycards">
             <div class="row row-cols-1 row-cols-md-3 g-4" id="cards-box">
+                {% for glamping in mainpage %}
+                <div class="col">
+                    <div class="card h-100">
+                        <a href="#" onclick=detail({{ glamping.num }})><img src={{ glamping.img }}
+                                class="card-img-top"></a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ glamping.name }}</h5>
+                            <p class="card-text">{{ glamping.address }}</p>
+                            <p>{{ glamping.star }}</p>
+                            <p class="mycomment">{{ glamping.comment }}</p>
+                            <div class="row row-cols-1 row-cols-md-3 g-4">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                {% endfor %}
 
             </div>
         </div>
-    </div>
 
 
 </body>
