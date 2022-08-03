@@ -79,8 +79,10 @@
             width: auto;
             height: 100%;
         }
+
     </style>
     <script>
+
         $(document).ready(function () {
             //listing();
         });
@@ -114,15 +116,39 @@
                                </div>`
 
                     $('#carousel-box').append(temp)
+
+
+                    for (let j = 0; j < rows.length; j++) {
+                        let name = rows[j]['name']
+                        let comment = rows[j]['comment']
+                        let address = rows[j]['address']
+                        let image = rows[j]['img']
+                        let star = rows[j]['star']
+                        let num = rows[j]['num']
+                        star = '⭐'.repeat(star)
+                        let temp = `<div class="col">
+                                        <div class="card h-100">
+                                            <a href="#" onclick=detail(${num})><img src="${image}" class="card-img-top"></a>
+
+                                            <div class="card-body">
+                                                <h5 class="card-title">${name}</h5>
+                                                <p class="card-text">${address}</p>
+                                                <p>${star}</p>
+                                                <p class="mycomment">${comment}</p>
+                                            </div>
+                                        </div>
+                                    </div> `
+                        $('#cards-box').append(temp)
+                    }
                 }
             })*/
         }
         function detail(data) {
+
             localStorage.setItem('mainnum', data);
             location.href = '/detailpg'
-
-
         }
+
         /*function posting() {
             let url = $('#url').val()
             let star = $('#star').val()
@@ -165,34 +191,42 @@
         <h1 class="header_point">안녕하세요, Guest님!<p></p>
             금주의 글램핑 추천 장소입니다.</h1>
         {% endif %}
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+
     </div>
 
     <div class="wrap">
         <div class="mycards">
             <div class="row row-cols-1 row-cols-md-3 g-4" id="cards-box">
                 {% for glamping in mainpage %}
-                <div class="col">
-                    <div class="card h-100">
-                        <a href="#" onclick=detail({{ glamping.num }})><img src={{ glamping.img }}
-                                class="card-img-top"></a>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ glamping.name }}</h5>
-                            <p class="card-text">{{ glamping.address }}</p>
-                            <p>{{ glamping.star }}</p>
-                            <p class="mycomment">{{ glamping.comment }}</p>
-                            <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% set star=mainstar[glamping.num] %}
 
+                    <div class="col">
+                        <div class="card h-100">
+                            <a href="/detailpg/{{ glamping.num }}" onclick=detail({{ glamping.num }})><img src={{ glamping.img }}
+                                                                                        class="card-img-top"></a>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ glamping.name }}</h5>
+                                <p class="card-text">{{ glamping.address }}</p>
+                                <p>{{ star }}</p>
+                                <p class="mycomment">{{ glamping.comment }}</p>
+
+                                <div class="row row-cols-1 row-cols-md-3 g-4">
+
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                </div>
+                    </div>
                 {% endfor %}
 
             </div>
         </div>
 
-
+    </div>
 </body>
 
 <!--상단-->
