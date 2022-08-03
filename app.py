@@ -1,14 +1,15 @@
 from flask import Flask, jsonify, render_template, request, url_for, redirect, make_response
 from pymongo import MongoClient
 from flask_jwt_extended import *
-from bson.objectid import ObjectId
+from datetime import *
 
 app = Flask(__name__)
 
 # JWT Configurations.
 app.config.update(
     JWT_SECRET_KEY = "GLAMPEDIA",
-    JWT_TOKEN_LOCATION = ["cookies"]
+    JWT_TOKEN_LOCATION = ["cookies"],
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours = 1)
 )
 
 jwt = JWTManager(app)
@@ -18,11 +19,20 @@ client = MongoClient("mongodb+srv://glampedia:1234@cluster0.uf0pxtj.mongodb.net/
 glampediaDB = client["Glampedia"]
 userDB = glampediaDB["User"]
 
+@jwt.expired_token_loader
+def expired_token_loader(jwt_header, jwt_payload):
+    response = make_response(redirect("/"))
+    response.delete_cookie("access_token_cookie")
+    return response
+
 #메인 페이지 라우팅
 @app.route("/", methods = ["GET"])
 @jwt_required(optional = True)
 def home():
     current_user = get_jwt_identity()
+    print(current_user)
+    if current_user is None:
+        return render_template("mainpage.html")
     user = userDB.find_one({"username": current_user})
     if user is not None:
         return render_template("mainpage.html", current_user = user["nickname"])
