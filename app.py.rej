@@ -1,9 +1,0 @@
-diff a/app.py b/app.py	(rejected hunks)
-@@ -4,6 +4,7 @@
- 
- app = Flask(__name__)
- 
-+# JWT Configurations.
- app.config.update(
-     JWT_SECRET_KEY = "GLAMPEDIA",
-     JWT_TOKEN_LOCATION = ["cookies"]
