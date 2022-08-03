@@ -20,7 +20,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-    <title>글램핑 ㄱㄱ</title>
+    <title>글램피디아</title>
 
     <style>
         .loginbutton {
@@ -31,9 +31,9 @@
         /*상단 글씨 부분*/
         .header_img {
             float: left;
-            width: 230px;
-            height: 180px;
-            margin-left: 22px;
+            width: 160px;
+            height: 130px;
+            margin-left: 25px;
             margin-top: 15px;
 
         }
@@ -70,7 +70,7 @@
 
             padding-top: 35px;
             margin: 0 auto;
-            width: 1200px;
+            width: 1000px;
         }
 
         .d-block {
@@ -79,25 +79,24 @@
             width: auto;
             height: 100%;
         }
+
     </style>
     <script>
-        function hey() {
-            console.log("dd")
-        }
 
         $(document).ready(function () {
-            listing();
+            //listing();
         });
 
         function listing() {
+            /*
             $.ajax({
                 type: 'GET',
-                url: '/mainpg',
+                url: '/',
                 data: {},
                 success: function (response) {
 
                     let rows = response['mains']
-                    /*
+
                     let tops = response['top']
 
 
@@ -117,7 +116,7 @@
                                </div>`
 
                     $('#carousel-box').append(temp)
-                    */
+
 
                     for (let j = 0; j < rows.length; j++) {
                         let name = rows[j]['name']
@@ -142,11 +141,13 @@
                         $('#cards-box').append(temp)
                     }
                 }
-            })
+            })*/
         }
         function detail(data) {
             localStorage.setItem('mainnum', data);
             location.href = '/detailpg'
+
+
         }
         /*function posting() {
             let url = $('#url').val()
@@ -180,6 +181,7 @@
                     Up</button></a>
             {% endif %}
         </div>
+
         <a href="#" onclick="window.location.href='/'"><img class="header_img" src={{ url_for("static",
                 filename="logo.png" )}}></a>
         {% if current_user %}
@@ -198,9 +200,31 @@
 
     <div class="wrap">
         <div class="mycards">
-            <div class="row row-cols-1 row-cols-md-3 g-4" id="cards-box">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
 
+                {% for i in mainpage %}
+                {% set name=i['name'] %}
+                {% set img=i['img'] %}
+                {% set comment=i['comment'] %}
+                {% set num=i['num'] %}
+                {% set address=i['address'] %}
+                {% set star=i['star'] %}
+                {% set starimg= '⭐' %}
+                <div class="col">
+                    <div class="card h-100">
+                        <a href="#" onclick=detail({{ num }})><img src="{{img}}" class="card-img-top"></a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{name}}}</h5>
+                            <p class="card-text">{{address}}</p>
+                            <p>{{star}}</p>
+                            <p class="mycomment">{{comment}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
+
+
         </div>
     </div>
 
