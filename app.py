@@ -44,6 +44,7 @@ def home():
 def detailinto():
     current_user = get_jwt_identity()
     user = userDB.find_one({"username": current_user})
+
     if user is not None:
         return render_template("detail.html",
                                current_user_name=user["nickname"],
@@ -63,19 +64,23 @@ def glamping_get():
 def web_reviews_post():
     comment_recevie = request.form['comment_give']
     star_recevie = request.form['star_give']
+    name_receive = request.form['name_give']
+    num_receive = request.form['num_give']
 
     doc = {
         'comment': comment_recevie,
-        'star': star_recevie
+        'star': star_recevie,
+        'num': num_receive,
+        'name':name_receive
     }
-    userDB.reviews.insert_one(doc)
+    glampediaDB.reviews.insert_one(doc)
 
     return jsonify({'msg':'등록 완료'})
 
 # 별점 코멘트 보여주기 라우팅
 @app.route("/reviews", methods=["GET"])
 def web_reviews_get():
-    review_list = list(userDB.reviews.find({}, {'_id': False}))
+    review_list = list(glampediaDB.reviews.find({}, {'_id': False}))
     return jsonify({'reviews':review_list})
 
 # 회원가입 페이지 라우팅.
