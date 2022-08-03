@@ -8,17 +8,17 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
     <title>상세페이지</title>
     <style>
@@ -56,7 +56,8 @@
             margin: 20px auto 0 auto;
 
             box-shadow: 0 0 3px 0 gray;
-            padding: 20px;;
+            padding: 20px;
+            ;
         }
 
 
@@ -79,13 +80,13 @@
 
         }
 
-        .comment_btn > .form-control {
+        .comment_btn>.form-control {
             width: 70%;
             margin-right: 20px;
             font-size: 20px;
         }
 
-        .comment_btn > .btn btn-success {
+        .comment_btn>.btn btn-success {
             width: 30%;
         }
 
@@ -99,7 +100,6 @@
         .grass-star {
             margin: 20px 0px 20px 0px
         }
-
     </style>
 
     <script>
@@ -117,7 +117,7 @@
                 data: {},
                 success: function (response) {
                     if (localStorage.getItem('mainnum')) {
-                        var lastData = localStorage.getItem('mainnum') -1
+                        var lastData = localStorage.getItem('mainnum') - 1
                     }
 
                     console.log(lastData);
@@ -130,7 +130,7 @@
                     g_mapimg = row[lastData]['map_img']
                     g_comment = row[lastData]['comment']
 
-                    map_num = lastData +1
+                    map_num = lastData + 1
 
                     temp_list = `<img id="g_img" style="margin-bottom: 20px;" src="${g_img}" width="800" height="500">
                                     <h1 id="g_name">${g_name}</h1>
@@ -139,7 +139,7 @@
                                     <p id="g_address">주소 : ${g_address}</p>
                                     <img id="g_map_img" src="../static/map_img/map${map_num}.jpg" width="800" height="500">`
 
-                     $('#g_list').append(temp_list)
+                    $('#g_list').append(temp_list)
 
                 }
             });
@@ -198,7 +198,7 @@
     <div class="parent-page">
         <div class="child left">
             <img src="../static/glampedia_logo.png" class="card-img-top" width="100" height="300">
-       </div>
+        </div>
         <div class="child center">
             <div id="g_list"></div>
 
@@ -238,8 +238,7 @@
         <div class="child right">
             {% if current_user_name %}
             <div class="profile">
-                <img src="https://www.freeiconspng.com/thumbs/awesome-face-png/awesome-face-png-1.png"
-                                      width="100" , height="100">
+                <img src={{ url_for("static", filename=current_user_img )}} width="100" , height="100">
                 <p class="nickname">{{ current_user_name }} 님</p>
                 <p>{{ current_user_intro }}</p>
                 <a href="/mypage"><button type="button" class="btn btn-light">MyPage</button></a>
