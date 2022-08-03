@@ -148,7 +148,11 @@
                 data: {},
                 success: function (response) {
                     if (localStorage.getItem('mainnum')) {
+<<<<<<< HEAD
                          var lastData = localStorage.getItem('mainnum') - 1
+=======
+                        var lastData = localStorage.getItem('mainnum')
+>>>>>>> mater/master
                     }
 
                     console.log(lastData);
@@ -161,7 +165,7 @@
                     g_mapimg = row[lastData]['map_img']
                     g_comment = row[lastData]['comment']
 
-                    map_num = lastData + 1
+                    map_num = lastData
 
                     temp_list = `<img id="g_img" style="margin-bottom: 20px;" src="${g_img}" width="800" height="500">
                                     <h1 id="g_name">${g_name}</h1>
@@ -175,7 +179,7 @@
                 }
             });
         }
-
+/*
         function show_reviews() {
             if (localStorage.getItem('mainnum')) {
                 var lastData = localStorage.getItem('mainnum') - 1
@@ -187,6 +191,7 @@
                 url: '/reviews',
                 data: {},
                 success: function (response) {
+
                     let rows = response['reviews']
                     for (let i = 0; i < rows.length; i++) {
                         let comment = rows[i]['comment']
@@ -212,14 +217,18 @@
                             $('#review-box').append(temp_html)
                         }
                     }
+
+
                 }
             });
         }
 
+
+ */
         function save_comment() {
 
             if (localStorage.getItem('mainnum')) {
-                var lastData = localStorage.getItem('mainnum') - 1
+                var lastData = localStorage.getItem('mainnum')
             }
 
             let comment = $('#comment').val()
@@ -251,9 +260,9 @@
         <div class="child center">
             <div id="g_list"></div>
 
-            <p class="grass-star" style="font-size:40px">⭐ 4.8 </p>
+            <p class="grass-star" style="font-size:40px">⭐ {{detail_star}} </p>
 
-
+<<<<<<< HEAD
                 <!--평점 및 후기 등록하기-->
                 <div class="mypost">
                     {% if current_user_name %}
@@ -274,13 +283,43 @@
                         <label for="comment"></label>
                         <button type="button" onclick="save_comment()" class="btn btn-success btn-lg">등록하기</button>
                     </div>
+=======
+            {% if current_user_name %}
+            <!--평점 및 후기 등록하기-->
+            <div class="mypost">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="star">평점</label>
+                    <select class="form-select" id="star" >
+                        <option selected>--선택하기--</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
+>>>>>>> mater/master
 
                 {% endif %}
 
 
             </div>
+            {% endif %}
             <!-- 캠핑장 리뷰 후기-->
             <div class="quote_card" id="review-box">
+
+
+
+                {% for rr_list in dateilpg %}
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <p class="saved-header">
+                                <p class="saved-star">⭐ {{rr_list.star}} </p>
+                                <p class="saved-user">{{ rr_list.name }}</p>
+                            </p>
+                            <p>{{ rr_list.comment }}</p>
+                        </blockquote>
+                    </div>
+                {% endfor %}
 
             </div>
 
@@ -292,10 +331,14 @@
             <div class="profile">
                 <img src={{ url_for("static", filename=current_user_img )}} width="100" , height="100">
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <p class="nickname" id="user_name">{{ current_user_name }}님</p>
 =======
                 <p class="nickname" id="user_name">{{ current_user_name }} 님</p>
 >>>>>>> 0a5ceba3a6238a4820556403f8d9051ac5b34ee1
+=======
+                <p class="nickname" id="user_name">{{ current_user_name }}</p>
+>>>>>>> mater/master
                 <p>{{ current_user_intro }}</p>
                 <a href="/mypage"><button type="button" class="btn btn-light">MyPage</button></a>
             </div>
