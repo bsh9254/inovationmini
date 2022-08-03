@@ -58,7 +58,7 @@ def detailinto():
         return render_template("detail.html",
                                current_user_name=user["nickname"],
                                current_user_intro=user["introduction"],
-                               current_user_img=user["filename"])
+                               current_user_img="photos/" + user["filename"])
     else:
         return render_template("detail.html")
 
