@@ -20,34 +20,15 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-    <title>상세페이지</title>
+    <title>글램핑 안내</title>
     <style>
         .parent-page {
             display: flex;
             border: 1px dotted;
             padding: 0px;
+            background: linear-gradient(90deg, rgba(130, 186, 116, 0.6) 15%, rgba(0,38,84,0) 15%), linear-gradient(90deg, rgba(255,255,255,1) 85%, rgba(130, 186, 116, 0.6) 85%);
         }
 
-
-        .left {
-            float: left;
-            width: 20%;
-            background-color: rgba(130, 186, 116, 0.6);
-        }
-
-        .center {
-            float: left;
-            width: 60%;
-            background-color: white;
-            margin: 50px 50px 0 50px;
-
-        }
-
-        .right {
-            float: left;
-            width: 20%;
-            background-color: rgba(130, 186, 116, 0.6);
-        }
 
         .quote_card {
             width: 100%;
@@ -57,7 +38,7 @@
 
             box-shadow: 0 0 3px 0 gray;
             padding: 20px;
-            ;
+
         }
 
 
@@ -100,6 +81,32 @@
         .grass-star {
             margin: 20px 0px 20px 0px
         }
+
+        .header_img{
+            float: left;
+            width: 160px;
+            height: 130px;
+            margin-left: 25px;
+            margin-top: 15px;
+
+        }
+
+        .child_center{
+
+            margin:50px auto;
+
+        }
+        .child_right{
+
+            margin:10px
+        }
+        .profile{
+            margin:150px 50px;
+        }
+        .quote_card{
+            height: auto;
+        }
+
     </style>
 
     <script>
@@ -117,7 +124,7 @@
                 data: {},
                 success: function (response) {
                     if (localStorage.getItem('mainnum')) {
-                         var lastData = localStorage.getItem('mainnum') - 1
+                        var lastData = localStorage.getItem('mainnum') - 1
                     }
 
                     console.log(lastData);
@@ -196,7 +203,8 @@
             let name = $('#user_name').text()
             let num = lastData
 
-            console.log(comment, name, star, num)
+            if(star!="--선택하기--"){
+                console.log(comment, name, star, num)
 
             $.ajax({
                 type: "POST",
@@ -207,6 +215,10 @@
                         window.location.reload()
                     }
             })
+            }
+            else
+                alert("별점을 선택하세요.")
+
         }
 
     </script>
@@ -214,37 +226,34 @@
 
 <body>
     <div class="parent-page">
-        <div class="child left">
-            <img src="../static/glampedia_logo.png" class="card-img-top" width="100" height="300">
+        <div class="child_left">
+            <a href="#" onclick="window.location.href='/'"><img class="header_img" src="../static/logo.png"></a>
         </div>
-        <div class="child center">
+        <div class="child_center">
             <div id="g_list"></div>
 
             <p class="grass-star" style="font-size:40px">⭐ 4.8 </p>
 
 
-                <!--평점 및 후기 등록하기-->
-                <div class="mypost">
-                    {% if current_user_name %}
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="star">평점</label>
-                        <select class="form-select" id="star" >
-                            <option selected>--선택하기--</option>
-                            <option value="1">⭐</option>
-                            <option value="2">⭐⭐</option>
-                            <option value="3">⭐⭐⭐</option>
-                            <option value="4">⭐⭐⭐⭐</option>
-                            <option value="5">⭐⭐⭐⭐⭐</option>
-                        </select>
+            <!--평점 및 후기 등록하기-->
+            <div class="mypost">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="star">평점</label>
+                    <select class="form-select" id="star" >
+                        <option selected>--선택하기--</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
 
-                    </div>
-                    <div class="comment_btn">
-                        <textarea class="form-control" placeholder="댓글로 후기를 남겨주세요." id="comment"></textarea>
-                        <label for="comment"></label>
-                        <button type="button" onclick="save_comment()" class="btn btn-success btn-lg">등록하기</button>
-                    </div>
-
-                {% endif %}
+                </div>
+                <div class="comment_btn">
+                    <textarea class="form-control" placeholder="댓글로 후기를 남겨주세요." id="comment"></textarea>
+                    <label for="comment"></label>
+                    <button type="button" onclick="save_comment()" class="btn btn-success btn-lg">등록하기</button>
+                </div>
 
 
             </div>
@@ -256,11 +265,11 @@
 
         </div>
 
-        <div class="child right">
+        <div class="child_right">
             {% if current_user_name %}
             <div class="profile">
                 <img src={{ url_for("static", filename=current_user_img )}} width="100" , height="100">
-                <p class="nickname" id="user_name">{{ current_user_name }}님</p>
+                <p class="nickname">{{ current_user_name }} 님</p>
                 <p>{{ current_user_intro }}</p>
                 <a href="/mypage"><button type="button" class="btn btn-light">MyPage</button></a>
             </div>
