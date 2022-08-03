@@ -241,7 +241,7 @@
 
             <p class="grass-star" style="font-size:40px">⭐ {{detail_star}} </p>
 
-
+            {% if current_user_name %}
             <!--평점 및 후기 등록하기-->
             <div class="mypost">
                 <div class="input-group mb-3">
@@ -264,6 +264,7 @@
 
 
             </div>
+            {% endif %}
             <!-- 캠핑장 리뷰 후기-->
             <div class="quote_card" id="review-box">
 
@@ -290,7 +291,7 @@
             {% if current_user_name %}
             <div class="profile">
                 <img src={{ url_for("static", filename=current_user_img )}} width="100" , height="100">
-                <p class="nickname" id="user_name">{{ current_user_name }} 님</p>
+                <p class="nickname" id="user_name">{{ current_user_name }}</p>
                 <p>{{ current_user_intro }}</p>
                 <a href="/mypage"><button type="button" class="btn btn-light">MyPage</button></a>
             </div>
