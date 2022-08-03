@@ -153,7 +153,7 @@
                 }
             });
         }
-
+/*
         function show_reviews() {
             if (localStorage.getItem('mainnum')) {
                 var lastData = localStorage.getItem('mainnum') - 1
@@ -165,6 +165,7 @@
                 url: '/reviews',
                 data: {},
                 success: function (response) {
+
                     let rows = response['reviews']
                     for (let i = 0; i < rows.length; i++) {
                         let comment = rows[i]['comment']
@@ -190,10 +191,14 @@
                             $('#review-box').append(temp_html)
                         }
                     }
+
+
                 }
             });
         }
 
+
+ */
         function save_comment() {
 
             if (localStorage.getItem('mainnum')) {
@@ -261,6 +266,19 @@
             </div>
             <!-- 캠핑장 리뷰 후기-->
             <div class="quote_card" id="review-box">
+
+                {% for rr_list in dateilpg %}
+
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <p class="saved-header">
+                                <p class="saved-star">우항항</p>
+                                <p class="saved-user">{{ rr_list.name }}</p>
+                            </p>
+                            <p>{{ rr_list.comment }}</p>
+                        </blockquote>
+                    </div>
+                {% endfor %}
 
             </div>
 

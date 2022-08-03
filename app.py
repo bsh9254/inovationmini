@@ -31,27 +31,45 @@ def expired_token_loader(jwt_header, jwt_payload):
 @jwt_required(optional = True)
 def home():
     glampings = list(glampediaDB.Glamping_info.find({}, {'_id': False}))
+    glampings_star=list(glampediaDB.reviews.find({}, {'_id': False}))
+    star_list=list([0]*(len(glampings_star)))
+    counting_list=list([0]*(len(glampings_star)))
     current_user = get_jwt_identity()
-    print(current_user)
+
+
+    for i in range(0,len(glampings_star)):
+        num=int(glampings_star[i]['num'])+1
+        star_list[num]+=int(glampings_star[i]['star'])
+        counting_list[num]+=1
+
+    for j in range(0,len(star_list)):
+        if star_list[j]!=0:
+            star_list[j]='⭐'*(int(star_list[j]//counting_list[j]))
+    
     if current_user is None: # JWT 토큰 자체가 없을 때, 즉, 최초 접속 시.
-        return render_template("mainpage.html",mainpage=glampings)
+        return render_template("mainpage.html",mainpage=glampings,mainstar=star_list)
     user = userDB.find_one({"username": current_user})
-    return render_template("mainpage.html", current_user = user["nickname"], mainpage = glampings)
+    return render_template("mainpage.html", current_user = user["nickname"], mainpage = glampings,mainstar=star_list)
+
 
 # 상세 페이지 라우팅
-@app.route("/detailpg")
+@app.route("/detailpg/<num>")
 @jwt_required(optional = True)
-def detailinto():
+def detailinto(num):
     current_user = get_jwt_identity()
     user = userDB.find_one({"username": current_user})
+
+    review_list = list(glampediaDB.reviews.find({'num': num}))
+
+    print(review_list)
 
     if user is not None:
         return render_template("detail.html",
                                current_user_name=user["nickname"],
                                current_user_img="photos/" + user["filename"],
-                               current_user_intro=user["introduction"])
+                               current_user_intro=user["introduction"], dateilpg=review_list)
     else:
-        return render_template("detail.html")
+        return render_template("detail.html", dateilpg=review_list)
 
 # 상세 페이지 GET
 @app.route("/Glamping", methods=["GET"])
@@ -81,7 +99,7 @@ def web_reviews_post():
 @app.route("/reviews", methods=["GET"])
 def web_reviews_get():
     review_list = list(glampediaDB.reviews.find({}, {'_id': False}))
-    return jsonify({'reviews':review_list})
+    return  render_template("detail.html")
 
 # 회원가입 페이지 라우팅.
 @app.route("/signup", methods = ["GET"])
@@ -185,8 +203,8 @@ def mypage():
 # 마이 페이지 GET
 @app.route("/mypage_review", methods=["GET"])
 def mypage_get():
-    myreview_list = list(glampediaDB.reviews.find({}, {'_id': False}))
-    return jsonify({'myreview_list': myreview_list})
+    review_list = list(glampediaDB.reviews.find({}, {'_id': False}))
+    return jsonify({'reviews': review_list})
 
 # Authorization 테스트 페이지.
 @app.route("/protected", methods = ["GET"])
