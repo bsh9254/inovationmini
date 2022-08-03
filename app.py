@@ -140,7 +140,7 @@ def mypage():
         return redirect(url_for("login"))
     else:
         user = userDB.find_one({"username": current_user})
-        return render_template("mypage.html", username = user["username"], nickname = user["nickname"], introduction = user["introduction"], filename = user["filename"])
+        return render_template("mypage.html", user = user)
 
 # Authorization 테스트 페이지.
 @app.route("/protected", methods = ["GET"])
