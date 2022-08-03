@@ -57,6 +57,7 @@ def detailinto():
     if user is not None:
         return render_template("detail.html",
                                current_user_name=user["nickname"],
+                               current_user_img="photos/" + user["filename"],
                                current_user_intro=user["introduction"])
     else:
         return render_template("detail.html")
