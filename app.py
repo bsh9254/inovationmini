@@ -182,6 +182,12 @@ def mypage():
                                current_user_intro=user["introduction"],
                                current_user_email=user["username"])
 
+# 마이 페이지 GET
+@app.route("/mypage_review", methods=["GET"])
+def mypage_get():
+    myreview_list = list(glampediaDB.reviews.find({}, {'_id': False}))
+    return jsonify({'myreview_list': myreview_list})
+
 # Authorization 테스트 페이지.
 @app.route("/protected", methods = ["GET"])
 @jwt_required()

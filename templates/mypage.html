@@ -6,7 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
     <title>마이페이지</title>
 
     <style>
@@ -23,6 +31,7 @@
     /* main section */
     #main {
         padding-left: 16%;
+<<<<<<< HEAD
         text-align: center;
     }
     /* main > 프로필사진 */
@@ -32,10 +41,25 @@
         height: 185px;
         float: left;
         margin-left: 16%;
+=======
+
+        text-align: left;
+    }
+    /* main > 프로필사진 */
+    .profileimg {
+        width: 300px;
+        height: 300px;
+
+        float: left;
+>>>>>>> 0a5ceba3a6238a4820556403f8d9051ac5b34ee1
         overflow: auto;
+        margin-left: 100px;
+        margin-right: 30px;
+        border-radius: 50px;
     }
     /* main > id,닉,소개 */
     .info {
+<<<<<<< HEAD
         background-color: rgb(255, 255, 255);
         display: inline-block;
         width: 30%;
@@ -45,25 +69,46 @@
     }
     .email {
         background-color: rgb(255, 255, 255);
+=======
+        margin-left: 300px;
+        width: 500px;
+        height: 300px;
+        padding-top: 50px;
+    }
+    .email {
+>>>>>>> 0a5ceba3a6238a4820556403f8d9051ac5b34ee1
         width: 80%;
         height: 50px;
         padding: 10px;
-        margin: 1vh;
     }
     .nickname {
+<<<<<<< HEAD
         background-color: rgb(255, 255, 255);
+=======
+
+
+>>>>>>> 0a5ceba3a6238a4820556403f8d9051ac5b34ee1
         width: 80%;
         height: 50px;
         padding: 10px;
         margin: 1vh;
     }
     .description {
+<<<<<<< HEAD
         background-color: rgb(255, 255, 255);
         width: 80%;
         height: 50px;
         padding: 10px;
         margin: 1vh;
         overflow: scroll;
+=======
+
+        width: 80%;
+        height: 50px;
+        padding: 10px;
+        margin-left: 50px;
+
+>>>>>>> 0a5ceba3a6238a4820556403f8d9051ac5b34ee1
     }
     .review {
         background-color: rgb(255, 255, 255);
@@ -79,19 +124,111 @@
         box-shadow: 0px 0px 1px 0px gray;
         height: 90%;
     }
+
+    .saved-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+    }
+    .quote_card{
+        height: auto;
+        width: 1000px;
+        align-content: center;
+        text-align: left;
+        border-radius: 10px;
+    }
+    .card-body{
+        border: 2px solid #a7a7a7;
+        margin: 50px;
+        padding: 50px;
+    }
+    .h3{
+        text-align: left;
+        margin-top: 40px;
+        margin-left: 40px;
+    }
+    .logo{
+        padding: 30px;
+    }
+
+    #right{
+        position: absolute;
+        right: 5%;
+        top: 8%;
+    }
     </style>
+
+    <script>
+
+        $(document).ready(function () {
+            show_reviews()
+        });
+
+        function show_reviews() {
+
+            $('#review_box').empty()
+            $.ajax({
+                type: 'GET',
+                url: '/mypage_review',
+                data: {},
+                success: function (response) {
+                    let rows = response['myreview_list']
+
+                    console.log(rows)
+
+                    if (localStorage.getItem('user_nickname')) {
+                        let nickname = localStorage.getItem('user_nickname')
+                        console.log(nickname)
+                    }
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let name = rows[i]['name']
+
+                        if (name == localStorage.getItem('user_nickname')) {
+                            let comment = rows[i]['comment']
+                            let star = rows[i]['star']
+                            let star_image = '⭐'.repeat(star)
+
+                            let temp_list = `<div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                    <p class="saved-header">
+                                                        <option class="saved-star">${star_image}</option>
+                                                        <option class="saved-user">${name}</option>
+                                                    </p>
+                                                    <p>${comment}</p>
+                                                </blockquote>
+                                            </div>`
+                            $('#review-box').append(temp_list)
+
+                        }
+
+                    }
+                }
+            });
+
+        }
+
+
+    </script>
 </head>
 
 <body>
-    <a href="mainpage.html">
-        <img src="https://ifh.cc/g/azRkC0.png" alt="Glampedia Logo" width="15%">
+    <a href="/">
+        <img class="logo" src="https://ifh.cc/g/azRkC0.png" alt="Glampedia Logo" width="15%">
     </a>
+<<<<<<< HEAD
     <div class="logout">
         <button type="submit" onclick="location.href='login.html'" class="btn btn-success btn-lg">로그아웃</button>
     </div>
     <section id="main">
             <div class="profileimg">
                 <img src={{ url_for("static", filename=current_user_img )}} width="100" , height="100" alt="프로필 사진">
+=======
+    <section id="main">
+            <div class="profileimg">
+                <img src={{ url_for("static", filename=current_user_img )}} width="300" , height="300">
+>>>>>>> 0a5ceba3a6238a4820556403f8d9051ac5b34ee1
             </div>
             <div class="info">
                 <div class="email">
@@ -104,16 +241,14 @@
                     {{current_user_intro}}
                 </div>
             </div>
-            <div class="review">
-                <div class="textbox">
-                    리뷰 내용1
-                </div>
-            </div>
-            <div class="review">
-                <div class="textbox">
-                    리뷰 내용2
-                </div>
-            </div>
+        <h3 class="h3">내가 작성한 리뷰 목록</h3>
+        <div class="quote_card" id="review-box">
+
+        </div>
+
     </section>
+<section id="right">
+    <a href="/logout"><button type="button" id="logout-button" class="btn btn-light">Log Out</button></a>
+</section>
 </body>
 </html>

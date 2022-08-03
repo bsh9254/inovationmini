@@ -66,6 +66,7 @@
             flex-direction: column;
             justify-items: center;
             align-items: center;
+            text-align: center;
 
             margin-top: 200px;
         }
@@ -100,6 +101,36 @@
         .grass-star {
             margin: 20px 0px 20px 0px
         }
+<<<<<<< HEAD
+=======
+
+        .header_img{
+            float: left;
+            width: 160px;
+            height: 130px;
+            margin-left: 25px;
+            margin-top: 15px;
+
+        }
+
+        .child_center{
+
+            margin:50px auto;
+
+        }
+        .child_right{
+
+            margin:10px;
+            width:180px;
+        }
+        .profile{
+            align-content: center;
+        }
+        .quote_card{
+            height: auto;
+        }
+
+>>>>>>> 0a5ceba3a6238a4820556403f8d9051ac5b34ee1
     </style>
 
     <script>
@@ -260,7 +291,11 @@
             {% if current_user_name %}
             <div class="profile">
                 <img src={{ url_for("static", filename=current_user_img )}} width="100" , height="100">
+<<<<<<< HEAD
                 <p class="nickname" id="user_name">{{ current_user_name }}님</p>
+=======
+                <p class="nickname" id="user_name">{{ current_user_name }} 님</p>
+>>>>>>> 0a5ceba3a6238a4820556403f8d9051ac5b34ee1
                 <p>{{ current_user_intro }}</p>
                 <a href="/mypage"><button type="button" class="btn btn-light">MyPage</button></a>
             </div>
