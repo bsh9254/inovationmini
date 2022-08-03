@@ -39,19 +39,23 @@ def home():
     return render_template("mainpage.html", current_user = user["nickname"], mainpage = glampings)
 
 # 상세 페이지 라우팅
-@app.route("/detailpg")
+@app.route("/detailpg/<num>")
 @jwt_required(optional = True)
-def detailinto():
+def detailinto(num):
     current_user = get_jwt_identity()
     user = userDB.find_one({"username": current_user})
+
+    review_list = list(glampediaDB.reviews.find({'num': num}))
+
+    print(review_list)
 
     if user is not None:
         return render_template("detail.html",
                                current_user_name=user["nickname"],
                                current_user_img="photos/" + user["filename"],
-                               current_user_intro=user["introduction"])
+                               current_user_intro=user["introduction"], dateilpg=review_list)
     else:
-        return render_template("detail.html")
+        return render_template("detail.html", dateilpg=review_list)
 
 # 상세 페이지 GET
 @app.route("/Glamping", methods=["GET"])
@@ -81,7 +85,7 @@ def web_reviews_post():
 @app.route("/reviews", methods=["GET"])
 def web_reviews_get():
     review_list = list(glampediaDB.reviews.find({}, {'_id': False}))
-    return jsonify({'reviews':review_list})
+    return  render_template("detail.html")
 
 # 회원가입 페이지 라우팅.
 @app.route("/signup", methods = ["GET"])
@@ -185,8 +189,8 @@ def mypage():
 # 마이 페이지 GET
 @app.route("/mypage_review", methods=["GET"])
 def mypage_get():
-    myreview_list = list(glampediaDB.reviews.find({}, {'_id': False}))
-    return jsonify({'myreview_list': myreview_list})
+    review_list = list(glampediaDB.reviews.find({}, {'_id': False}))
+    return jsonify({'reviews': review_list})
 
 # Authorization 테스트 페이지.
 @app.route("/protected", methods = ["GET"])
