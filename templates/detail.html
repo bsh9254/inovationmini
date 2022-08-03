@@ -117,7 +117,7 @@
                 data: {},
                 success: function (response) {
                     if (localStorage.getItem('mainnum')) {
-                        var lastData = localStorage.getItem('mainnum') - 1
+                         var lastData = localStorage.getItem('mainnum') - 1
                     }
 
                     console.log(lastData);
@@ -146,6 +146,10 @@
         }
 
         function show_reviews() {
+            if (localStorage.getItem('mainnum')) {
+                var lastData = localStorage.getItem('mainnum') - 1
+            }
+
             $('#review-box').empty()
             $.ajax({
                 type: 'GET',
@@ -156,6 +160,8 @@
                     for (let i = 0; i < rows.length; i++) {
                         let comment = rows[i]['comment']
                         let star = rows[i]['star']
+                        let name = rows[i]['name']
+                        let num = rows[i]['num']
 
                         let star_image = '⭐'.repeat(star)
 
@@ -165,29 +171,41 @@
                                                     <p class="saved-header">
                                                         <option class="saved-star">${star_image}</option>
                                                         <option class="saved-star-value">${star}</option>
-                                                        <option class="saved-user">캠핑러</option>
+                                                        <option class="saved-user">${name}</option>
                                                     </p>
                                                     <p>${comment}</p>
                                                 </blockquote>
                                             </div>`
-                        $('#review-box').append(temp_html)
+
+                        if(num == lastData){
+                            $('#review-box').append(temp_html)
+                        }
                     }
                 }
             });
         }
 
         function save_comment() {
+
+            if (localStorage.getItem('mainnum')) {
+                var lastData = localStorage.getItem('mainnum') - 1
+            }
+
             let comment = $('#comment').val()
             let star = $('#star').val()
+            let name = $('#user_name').text()
+            let num = lastData
+
+            console.log(comment, name, star, num)
 
             $.ajax({
                 type: "POST",
                 url: "/reviews",
-                data: { comment_give:comment, star_give:star},
-                success: function (response) {
-                    alert(response['msg'])
-                    window.location.reload()
-                }
+                data: { comment_give: comment, star_give: star, num_give: num, name_give:name},
+                    success: function (response) {
+                        alert(response['msg'])
+                        window.location.reload()
+                    }
             })
         }
 
@@ -205,25 +223,28 @@
             <p class="grass-star" style="font-size:40px">⭐ 4.8 </p>
 
 
-            <!--평점 및 후기 등록하기-->
-            <div class="mypost">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="star">평점</label>
-                    <select class="form-select" id="star" >
-                        <option selected>--선택하기--</option>
-                        <option value="1">⭐</option>
-                        <option value="2">⭐⭐</option>
-                        <option value="3">⭐⭐⭐</option>
-                        <option value="4">⭐⭐⭐⭐</option>
-                        <option value="5">⭐⭐⭐⭐⭐</option>
-                    </select>
+                <!--평점 및 후기 등록하기-->
+                <div class="mypost">
+                    {% if current_user_name %}
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="star">평점</label>
+                        <select class="form-select" id="star" >
+                            <option selected>--선택하기--</option>
+                            <option value="1">⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="5">⭐⭐⭐⭐⭐</option>
+                        </select>
 
-                </div>
-                <div class="comment_btn">
-                    <textarea class="form-control" placeholder="댓글로 후기를 남겨주세요." id="comment"></textarea>
-                    <label for="comment"></label>
-                    <button type="button" onclick="save_comment()" class="btn btn-success btn-lg">등록하기</button>
-                </div>
+                    </div>
+                    <div class="comment_btn">
+                        <textarea class="form-control" placeholder="댓글로 후기를 남겨주세요." id="comment"></textarea>
+                        <label for="comment"></label>
+                        <button type="button" onclick="save_comment()" class="btn btn-success btn-lg">등록하기</button>
+                    </div>
+
+                {% endif %}
 
 
             </div>
@@ -239,7 +260,7 @@
             {% if current_user_name %}
             <div class="profile">
                 <img src={{ url_for("static", filename=current_user_img )}} width="100" , height="100">
-                <p class="nickname">{{ current_user_name }} 님</p>
+                <p class="nickname" id="user_name">{{ current_user_name }}님</p>
                 <p>{{ current_user_intro }}</p>
                 <a href="/mypage"><button type="button" class="btn btn-light">MyPage</button></a>
             </div>
