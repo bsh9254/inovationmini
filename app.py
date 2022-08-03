@@ -61,15 +61,22 @@ def detailinto(num):
 
     review_list = list(glampediaDB.reviews.find({'num': num}))
 
-    print(review_list)
+    sum = 0
+
+    for i in range(0,len(review_list)):
+        sum += int(review_list[i]['star'])
+
+    a_star = sum / len(review_list)
+    avg_star = round(a_star, 1)
+    print(avg_star)
 
     if user is not None:
         return render_template("detail.html",
                                current_user_name=user["nickname"],
                                current_user_img="photos/" + user["filename"],
-                               current_user_intro=user["introduction"], dateilpg=review_list)
+                               current_user_intro=user["introduction"], dateilpg=review_list, detail_star = avg_star)
     else:
-        return render_template("detail.html", dateilpg=review_list)
+        return render_template("detail.html", dateilpg=review_list, detail_star = avg_star)
 
 # 상세 페이지 GET
 @app.route("/Glamping", methods=["GET"])
