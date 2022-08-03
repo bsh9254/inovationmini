@@ -1,13 +1,15 @@
 from flask import Flask, jsonify, render_template, request, url_for, redirect, make_response
 from pymongo import MongoClient
 from flask_jwt_extended import *
+from datetime import *
 
 app = Flask(__name__)
 
 # JWT Configurations.
 app.config.update(
     JWT_SECRET_KEY = "GLAMPEDIA",
-    JWT_TOKEN_LOCATION = ["cookies"]
+    JWT_TOKEN_LOCATION = ["cookies"],
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours = 1)
 )
 
 jwt = JWTManager(app)
@@ -17,11 +19,20 @@ client = MongoClient("mongodb+srv://glampedia:1234@cluster0.uf0pxtj.mongodb.net/
 glampediaDB = client["Glampedia"]
 userDB = glampediaDB["User"]
 
+@jwt.expired_token_loader
+def expired_token_loader(jwt_header, jwt_payload):
+    response = make_response(redirect("/"))
+    response.delete_cookie("access_token_cookie")
+    return response
+
 #메인 페이지 라우팅
 @app.route("/", methods = ["GET"])
 @jwt_required(optional = True)
 def home():
     current_user = get_jwt_identity()
+    print(current_user)
+    if current_user is None:
+        return render_template("mainpage.html")
     user = userDB.find_one({"username": current_user})
     if user is not None:
         return render_template("mainpage.html", current_user = user["nickname"])
@@ -73,13 +84,16 @@ def signup_process():
     nickname = request.form["nickname"]
     introduction = request.form["introduction"]
     name = username.replace("@", ".")
+    filename = ""
     if photo.filename != "":
         extension = photo.filename.split(".")[-1]
-        photo.save(f"static/photos/{name}.{extension}")
+        filename = f"{name}.{extension}"
+        photo.save(f"static/photos/{filename}")
     user = {
         "username": username,
         "password": password,
         "nickname": nickname,
+        "filename": filename,
         "introduction": introduction
     }
     userDB.insert_one(user)
@@ -122,6 +136,17 @@ def logout():
     response = make_response(redirect("/"))
     response.delete_cookie("access_token_cookie")
     return response
+
+# 마이 페이지 라우팅.
+@app.route("/mypage", methods = ["GET"])
+@jwt_required(optional = True)
+def mypage():
+    current_user = get_jwt_identity()
+    if current_user is None:
+        return redirect(url_for("login"))
+    else:
+        user = userDB.find_one({"username": current_user})
+        return render_template("mypage.html", user = user)
 
 # Authorization 테스트 페이지.
 @app.route("/protected", methods = ["GET"])
