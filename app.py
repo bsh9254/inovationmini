@@ -29,16 +29,13 @@ def expired_token_loader(jwt_header, jwt_payload):
 @app.route("/", methods = ["GET"])
 @jwt_required(optional = True)
 def home():
-    mainpage = list(glampediaDB.Glamping_info.find({}, {'_id': False}))
+    glampings = list(glampediaDB.Glamping_info.find({}, {'_id': False}))
     current_user = get_jwt_identity()
     print(current_user)
-    if current_user is None:
-        return render_template("mainpage.html",mainpage=mainpage)
+    if current_user is None: # JWT 토큰 자체가 없을 때, 즉, 최초 접속 시.
+        return render_template("mainpage.html",mainpage=glampings)
     user = userDB.find_one({"username": current_user})
-    if user is not None:
-        return render_template("mainpage.html", current_user = user["nickname"],mainpage=mainpage)
-    else:
-        return render_template("mainpage.html",mainpage=mainpage)
+    return render_template("mainpage.html", current_user = user["nickname"], mainpage = glampings)
 
 # 상세 페이지 라우팅
 @app.route("/detailpg")
