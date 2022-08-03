@@ -3,6 +3,10 @@ from pymongo import MongoClient
 from flask_jwt_extended import *
 from datetime import *
 import os
+import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
 app = Flask(__name__)
 
