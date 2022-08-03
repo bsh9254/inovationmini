@@ -48,7 +48,7 @@ def main_get():
     #tops=list(db.Glamping.find({'star':{"$gte":4.5}},{'_id':False}))
     return jsonify({'mains':mainpage})
 
-# 상세페이지 라우팅
+# 상세 페이지 라우팅
 @app.route("/detailpg")
 @jwt_required(optional = True)
 def detailinto():
@@ -57,8 +57,7 @@ def detailinto():
     if user is not None:
         return render_template("detail.html",
                                current_user_name=user["nickname"],
-                               current_user_intro=user["introduction"],
-                               current_user_img=user["filename"])
+                               current_user_intro=user["introduction"])
     else:
         return render_template("detail.html")
 
@@ -67,6 +66,26 @@ def detailinto():
 def glamping_get():
     g_list = list(glampediaDB.Glamping_info.find({}, {'_id': False}))
     return jsonify({'g_list': g_list})
+
+# 별점 코멘트 등록하기 라우팅
+@app.route("/reviews", methods=["POST"])
+def web_reviews_post():
+    comment_recevie = request.form['comment_give']
+    star_recevie = request.form['star_give']
+
+    doc = {
+        'comment': comment_recevie,
+        'star': star_recevie
+    }
+    userDB.reviews.insert_one(doc)
+
+    return jsonify({'msg':'등록 완료'})
+
+# 별점 코멘트 보여주기 라우팅
+@app.route("/reviews", methods=["GET"])
+def web_reviews_get():
+    review_list = list(userDB.reviews.find({}, {'_id': False}))
+    return jsonify({'reviews':review_list})
 
 # 회원가입 페이지 라우팅.
 @app.route("/signup", methods = ["GET"])
