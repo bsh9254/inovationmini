@@ -81,69 +81,6 @@
         }
     </style>
     <script>
-        function hey() {
-            console.log("dd")
-        }
-
-        $(document).ready(function () {
-            listing();
-        });
-
-        function listing() {
-            $.ajax({
-                type: 'GET',
-                url: '/mainpg',
-                data: {},
-                success: function (response) {
-
-                    let rows = response['mains']
-                    /*
-                    let tops = response['top']
-
-
-                    let img1 = tops[0]['img']
-                    let img2 = tops[1]['img']
-                    let img3 = tops[2]['img']
-                    let temp =`<div class="carousel-item active">
-                                    <a><href="#" onclick="location.href='https://www.naver.com'"><img class="d-block w-100" src="${img1}" alt="First slide"></a>
-                               </div>
-                               <div class="carousel-item">
-                                    <a><href="#" onclick="location.href='https://www.naver.com'"><img class="d-block w-100" src="${img2}" alt="Second slide"></a>
-
-                               </div>
-                               <div class="carousel-item">
-                                    <a><href="#" onclick="location.href='https://www.naver.com'"><img class="d-block w-100" src="${img3}" alt="Third slide"></a>
-
-                               </div>`
-
-                    $('#carousel-box').append(temp)
-                    */
-
-                    for (let j = 0; j < rows.length; j++) {
-                        let name = rows[j]['name']
-                        let comment = rows[j]['comment']
-                        let address = rows[j]['address']
-                        let image = rows[j]['img']
-                        let star = rows[j]['star']
-                        let num = rows[j]['num']
-                        star = '⭐'.repeat(star)
-                        let temp = `<div class="col">
-                                        <div class="card h-100">
-                                            <a href="#" onclick=detail(${num})><img src="${image}" class="card-img-top"></a>
-
-                                            <div class="card-body">
-                                                <h5 class="card-title">${name}</h5>
-                                                <p class="card-text">${address}</p>
-                                                <p>${star}</p>
-                                                <p class="mycomment">${comment}</p>
-                                            </div>
-                                        </div>
-                                    </div> `
-                        $('#cards-box').append(temp)
-                    }
-                }
-            })
-        }
         function detail(data) {
             localStorage.setItem('mainnum', data);
             location.href = '/detailpg'
@@ -189,17 +126,25 @@
         <h1 class="header_point">안녕하세요, Guest님!<p></p>
             금주의 글램핑 추천 장소입니다.</h1>
         {% endif %}
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-
     </div>
 
     <div class="wrap">
         <div class="mycards">
             <div class="row row-cols-1 row-cols-md-3 g-4" id="cards-box">
-
+                {% for glamping in mainpage %}
+                <div class="col">
+                    <div class="card h-100">
+                        <a href="#" onclick=detail({{ glamping.num }})><img src={{ glamping.img }}
+                                class="card-img-top"></a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ glamping.name }}</h5>
+                            <p class="card-text">{{ glamping.address }}</p>
+                            <p>{{ glamping.star }}</p>
+                            <p class="mycomment">{{ glamping.comment }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
