@@ -29,24 +29,16 @@ def expired_token_loader(jwt_header, jwt_payload):
 @app.route("/", methods = ["GET"])
 @jwt_required(optional = True)
 def home():
+    mainpage = list(glampediaDB.Glamping_info.find({}, {'_id': False}))
     current_user = get_jwt_identity()
     print(current_user)
     if current_user is None:
-        return render_template("mainpage.html")
+        return render_template("mainpage.html",mainpage=mainpage)
     user = userDB.find_one({"username": current_user})
     if user is not None:
-        return render_template("mainpage.html", current_user = user["nickname"])
+        return render_template("mainpage.html", current_user = user["nickname"],mainpage=mainpage)
     else:
-        return render_template("mainpage.html")
-
-# 메인페이지 GET
-@app.route("/mainpg", methods=["GET"])
-@jwt_required(optional = True)
-def main_get():
-    mainpage=list(glampediaDB.Glamping_info.find({},{'_id':False}))
-
-    #tops=list(db.Glamping.find({'star':{"$gte":4.5}},{'_id':False}))
-    return jsonify({'mains':mainpage})
+        return render_template("mainpage.html",mainpage=mainpage)
 
 # 상세 페이지 라우팅
 @app.route("/detailpg")
