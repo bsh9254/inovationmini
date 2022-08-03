@@ -20,7 +20,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-    <title>글램핑 ㄱㄱ</title>
+    <title>글램피디아</title>
 
     <style>
         .loginbutton {
@@ -31,9 +31,9 @@
         /*상단 글씨 부분*/
         .header_img {
             float: left;
-            width: 230px;
-            height: 180px;
-            margin-left: 22px;
+            width: 160px;
+            height: 130px;
+            margin-left: 25px;
             margin-top: 15px;
 
         }
@@ -70,7 +70,7 @@
 
             padding-top: 35px;
             margin: 0 auto;
-            width: 1200px;
+            width: 1000px;
         }
 
         .d-block {
@@ -79,11 +79,50 @@
             width: auto;
             height: 100%;
         }
+
     </style>
     <script>
+        $(document).ready(function () {
+            //listing();
+        });
+
+        function listing() {
+            /*
+            $.ajax({
+                type: 'GET',
+                url: '/',
+                data: {},
+                success: function (response) {
+
+                    let rows = response['mains']
+
+                    let tops = response['top']
+
+
+                    let img1 = tops[0]['img']
+                    let img2 = tops[1]['img']
+                    let img3 = tops[2]['img']
+                    let temp =`<div class="carousel-item active">
+                                    <a><href="#" onclick="location.href='https://www.naver.com'"><img class="d-block w-100" src="${img1}" alt="First slide"></a>
+                               </div>
+                               <div class="carousel-item">
+                                    <a><href="#" onclick="location.href='https://www.naver.com'"><img class="d-block w-100" src="${img2}" alt="Second slide"></a>
+
+                               </div>
+                               <div class="carousel-item">
+                                    <a><href="#" onclick="location.href='https://www.naver.com'"><img class="d-block w-100" src="${img3}" alt="Third slide"></a>
+
+                               </div>`
+
+                    $('#carousel-box').append(temp)
+                }
+            })*/
+        }
         function detail(data) {
             localStorage.setItem('mainnum', data);
             location.href = '/detailpg'
+
+
         }
         /*function posting() {
             let url = $('#url').val()
@@ -117,6 +156,7 @@
                     Up</button></a>
             {% endif %}
         </div>
+
         <a href="#" onclick="window.location.href='/'"><img class="header_img" src={{ url_for("static",
                 filename="logo.png" )}}></a>
         {% if current_user %}
@@ -141,11 +181,15 @@
                             <p class="card-text">{{ glamping.address }}</p>
                             <p>{{ glamping.star }}</p>
                             <p class="mycomment">{{ glamping.comment }}</p>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
+
+
         </div>
     </div>
 
