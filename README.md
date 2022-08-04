@@ -1,7 +1,8 @@
 <h2> 12조 </h2>
 <br>
 <h1> :earth_americas: 글램피디아 (Glampedia) </h1>
-<br>
+This project is a mini project in innovation camp
+<br><br>
 
 <h2> :mega: 서비스 소개 </h2>
 코로나19시대에 증가하는 글램핑 수요를 반영하여 글램핑장의 위키피디아가 되겠다는 취지로 <br>
@@ -47,6 +48,3 @@
 [김진욱](https://github.com/sparklaunch)
 [김준하](https://github.com/Dev-Dotoli)
 
--------------
-<br>
-This project is a mini project in innovation camp
