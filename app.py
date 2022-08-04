@@ -77,10 +77,10 @@ def detailinto(num):
     for i in range(0,len(review_list)):
         sum += int(review_list[i]['star'])
 
-    if sum != 0:
+    if sum != 0:  #리뷰가 있을 경우
         a_star = sum / len(review_list)
         avg_star = round(a_star, 1)
-    else:
+    else:         #리뷰가 없을 경우
         avg_star =0
 
 
@@ -93,11 +93,6 @@ def detailinto(num):
     else:
         return render_template("detail.html", dateilpg=review_list, detail_star = avg_star, gg_list=glamping_list, mmap_img=map_img)
 
-# 상세 페이지 GET
-@app.route("/Glamping", methods=["GET"])
-def glamping_get():
-    g_list = list(glampediaDB.Glamping_info.find({}, {'_id': False}))
-    return jsonify({'g_list': g_list})
 
 # 별점 코멘트 등록하기 라우팅
 @app.route("/reviews", methods=["POST"])
