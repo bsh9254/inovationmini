@@ -26,12 +26,12 @@
             display: flex;
             border: 1px dotted;
             padding: 0px;
-            background: linear-gradient(90deg, rgba(130, 186, 116, 0.6) 15%, rgba(0,38,84,0) 15%), linear-gradient(90deg, rgba(255,255,255,1) 85%, rgba(130, 186, 116, 0.6) 85%);
+            background: linear-gradient(90deg, rgba(130, 186, 116, 0.6) 15%, rgba(0, 38, 84, 0) 15%), linear-gradient(90deg, rgba(255, 255, 255, 1) 85%, rgba(130, 186, 116, 0.6) 85%);
         }
 
 
         .quote_card {
-            width: 100%;
+            width: 850px;
             height: 150px;
 
             margin: 20px auto 0 auto;
@@ -83,7 +83,7 @@
             margin: 20px 0px 20px 0px
         }
 
-        .header_img{
+        .header_img {
             float: left;
             width: 160px;
             height: 130px;
@@ -92,23 +92,25 @@
 
         }
 
-        .child_center{
+        .child_center {
 
-            margin:50px auto;
+            margin: 50px auto;
 
         }
-        .child_right{
 
-            margin:10px;
-            width:180px;
+        .child_right {
+
+            margin: 10px;
+            width: 180px;
         }
-        .profile{
+
+        .profile {
             align-content: center;
         }
-        .quote_card{
+
+        .quote_card {
             height: auto;
         }
-
     </style>
 
     <script>
@@ -116,7 +118,6 @@
         // 메인 페이지에서 가져오는 num에 따라 글램핑 정보 다르게 보여주기
         $(document).ready(function () {
             show_glamping();
-            show_reviews();
         });
 
         function show_glamping() {
@@ -126,7 +127,7 @@
                 data: {},
                 success: function (response) {
                     if (localStorage.getItem('mainnum')) {
-                        var lastData = localStorage.getItem('mainnum') - 1
+                        var lastData = localStorage.getItem('mainnum')
                     }
 
                     console.log(lastData);
@@ -139,7 +140,7 @@
                     g_mapimg = row[lastData]['map_img']
                     g_comment = row[lastData]['comment']
 
-                    map_num = lastData + 1
+                    map_num = lastData
 
                     temp_list = `<img id="g_img" style="margin-bottom: 20px;" src="${g_img}" width="800" height="500">
                                     <h1 id="g_name">${g_name}</h1>
@@ -153,56 +154,56 @@
                 }
             });
         }
-/*
-        function show_reviews() {
-            if (localStorage.getItem('mainnum')) {
-                var lastData = localStorage.getItem('mainnum') - 1
-            }
-
-            $('#review-box').empty()
-            $.ajax({
-                type: 'GET',
-                url: '/reviews',
-                data: {},
-                success: function (response) {
-
-                    let rows = response['reviews']
-                    for (let i = 0; i < rows.length; i++) {
-                        let comment = rows[i]['comment']
-                        let star = rows[i]['star']
-                        let name = rows[i]['name']
-                        let num = rows[i]['num']
-
-                        let star_image = '⭐'.repeat(star)
-
-                        let temp_html = `
-                                            <div class="card-body">
-                                                <blockquote class="blockquote mb-0">
-                                                    <p class="saved-header">
-                                                        <option class="saved-star">${star_image}</option>
-                                                        <option class="saved-star-value">${star}</option>
-                                                        <option class="saved-user">${name}</option>
-                                                    </p>
-                                                    <p>${comment}</p>
-                                                </blockquote>
-                                            </div>`
-
-                        if(num == lastData){
-                            $('#review-box').append(temp_html)
-                        }
+        /*
+                function show_reviews() {
+                    if (localStorage.getItem('mainnum')) {
+                        var lastData = localStorage.getItem('mainnum') - 1
                     }
-
-
+        
+                    $('#review-box').empty()
+                    $.ajax({
+                        type: 'GET',
+                        url: '/reviews',
+                        data: {},
+                        success: function (response) {
+        
+                            let rows = response['reviews']
+                            for (let i = 0; i < rows.length; i++) {
+                                let comment = rows[i]['comment']
+                                let star = rows[i]['star']
+                                let name = rows[i]['name']
+                                let num = rows[i]['num']
+        
+                                let star_image = '⭐'.repeat(star)
+        
+                                let temp_html = `
+                                                    <div class="card-body">
+                                                        <blockquote class="blockquote mb-0">
+                                                            <p class="saved-header">
+                                                                <option class="saved-star">${star_image}</option>
+                                                                <option class="saved-star-value">${star}</option>
+                                                                <option class="saved-user">${name}</option>
+                                                            </p>
+                                                            <p>${comment}</p>
+                                                        </blockquote>
+                                                    </div>`
+        
+                                if(num == lastData){
+                                    $('#review-box').append(temp_html)
+                                }
+                            }
+        
+        
+                        }
+                    });
                 }
-            });
-        }
-
-
- */
+        
+        
+         */
         function save_comment() {
 
             if (localStorage.getItem('mainnum')) {
-                var lastData = localStorage.getItem('mainnum') - 1
+                var lastData = localStorage.getItem('mainnum')
             }
 
             let comment = $('#comment').val()
@@ -210,18 +211,18 @@
             let name = $('#user_name').text()
             let num = lastData
 
-            if(star!="--선택하기--"){
+            if (star != "--선택하기--") {
                 console.log(comment, name, star, num)
 
-            $.ajax({
-                type: "POST",
-                url: "/reviews",
-                data: { comment_give: comment, star_give: star, num_give: num, name_give:name},
+                $.ajax({
+                    type: "POST",
+                    url: "/reviews",
+                    data: { comment_give: comment, star_give: star, num_give: num, name_give: name },
                     success: function (response) {
                         alert(response['msg'])
                         window.location.reload()
                     }
-            })
+                })
             }
             else
                 alert("별점을 선택하세요.")
@@ -239,14 +240,14 @@
         <div class="child_center">
             <div id="g_list"></div>
 
-            <p class="grass-star" style="font-size:40px">⭐ 4.8 </p>
+            <p class="grass-star" style="font-size:40px">⭐ {{detail_star}} </p>
 
-
+            {% if current_user_name %}
             <!--평점 및 후기 등록하기-->
             <div class="mypost">
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="star">평점</label>
-                    <select class="form-select" id="star" >
+                    <select class="form-select" id="star">
                         <option selected>--선택하기--</option>
                         <option value="1">⭐</option>
                         <option value="2">⭐⭐</option>
@@ -264,19 +265,22 @@
 
 
             </div>
+            {% endif %}
             <!-- 캠핑장 리뷰 후기-->
             <div class="quote_card" id="review-box">
 
+
+
                 {% for rr_list in dateilpg %}
-                    <div class="card-body">
-                        <blockquote class="blockquote mb-0">
-                            <p class="saved-header">
-                                <p class="saved-star">⭐ {{rr_list.star}} </p>
-                                <p class="saved-user">{{ rr_list.name }}</p>
-                            </p>
-                            <p>{{ rr_list.comment }}</p>
-                        </blockquote>
-                    </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p class="saved-header">
+                        <p class="saved-star">⭐ {{rr_list.star}} </p>
+                        <p class="saved-user">{{ rr_list.name }}</p>
+                        </p>
+                        <p>{{ rr_list.comment }}</p>
+                    </blockquote>
+                </div>
                 {% endfor %}
 
             </div>
@@ -288,7 +292,7 @@
             {% if current_user_name %}
             <div class="profile">
                 <img src={{ url_for("static", filename=current_user_img )}} width="100" , height="100">
-                <p class="nickname" id="user_name">{{ current_user_name }} 님</p>
+                <p class="nickname" id="user_name">{{ current_user_name }}</p>
                 <p>{{ current_user_intro }}</p>
                 <a href="/mypage"><button type="button" class="btn btn-light">MyPage</button></a>
             </div>

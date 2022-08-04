@@ -1,8 +1,12 @@
-from flask import Flask, jsonify, render_template, request, url_for, redirect, make_response
+from flask import Flask, jsonify, render_template, request, url_for, redirect, make_response, json
 from pymongo import MongoClient
 from flask_jwt_extended import *
 from datetime import *
 import os
+import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
 app = Flask(__name__)
 
@@ -32,20 +36,25 @@ def expired_token_loader(jwt_header, jwt_payload):
 def home():
     glampings = list(glampediaDB.Glamping_info.find({}, {'_id': False}))
     glampings_star=list(glampediaDB.reviews.find({}, {'_id': False}))
-    star_list=list([0]*(len(glampings_star)))
-    counting_list=list([0]*(len(glampings_star)))
+    print(glampings_star[2]['star'])
+    star_list=list([0]*1000)
+    counting_list=list([0]*1000)
     current_user = get_jwt_identity()
 
 
-    for i in range(0,len(glampings_star)):
-        num=int(glampings_star[i]['num'])+1
+
+    for i in range(len(glampings_star)):
+        num=int(glampings_star[i]['num'])
         star_list[num]+=int(glampings_star[i]['star'])
         counting_list[num]+=1
 
     for j in range(0,len(star_list)):
         if star_list[j]!=0:
             star_list[j]='⭐'*(int(star_list[j]//counting_list[j]))
-    
+        else:
+            star_list[j]=' '
+    print(star_list)
+    print(current_user)
     if current_user is None: # JWT 토큰 자체가 없을 때, 즉, 최초 접속 시.
         return render_template("mainpage.html",mainpage=glampings,mainstar=star_list)
     user = userDB.find_one({"username": current_user})
@@ -61,15 +70,26 @@ def detailinto(num):
 
     review_list = list(glampediaDB.reviews.find({'num': num}))
 
-    print(review_list)
+    sum = 0
+
+    for i in range(0,len(review_list)):
+        sum += int(review_list[i]['star'])
+
+    if sum != 0:
+        a_star = sum / len(review_list)
+        avg_star = round(a_star, 1)
+    else:
+        avg_star =0
+
+    print(avg_star)
 
     if user is not None:
         return render_template("detail.html",
                                current_user_name=user["nickname"],
                                current_user_img="photos/" + user["filename"],
-                               current_user_intro=user["introduction"], dateilpg=review_list)
+                               current_user_intro=user["introduction"], dateilpg=review_list, detail_star = avg_star)
     else:
-        return render_template("detail.html", dateilpg=review_list)
+        return render_template("detail.html", dateilpg=review_list, detail_star = avg_star)
 
 # 상세 페이지 GET
 @app.route("/Glamping", methods=["GET"])
@@ -132,7 +152,7 @@ def signup_process():
         filename = f"{name}.{extension}"
         try:
             original_umask = os.umask(0)
-            os.makedirs("./static/photos", 0o0777, exist_ok = True)
+            os.makedirs("./static/photos", 0o0777, exist_ok=True)
         finally:
             os.umask(original_umask)
         photo.save(f"static/photos/{filename}")
@@ -168,18 +188,24 @@ def login_process():
 def check_redundancy():
     username = request.form["username"]
     if username == "":
-        return jsonify({
+        response = jsonify({
             "message": "Empty"
         })
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
     user = userDB.find_one({"username": username})
     if user:
-        return jsonify({
+        response = jsonify({
             "message": "Already taken"
         })
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
     else:
-        return jsonify({
+        response = jsonify({
             "message": "Good to go"
         })
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
 
 # 로그아웃 처리 라우팅.
 @app.route("/logout", methods = ["GET"])

@@ -158,7 +158,9 @@
     <main>
         <div class="container">
             <section id="logo">
-                <img src={{ url_for("static", filename="logo.png" ) }} alt="Glampedia Logo">
+                <a href="/">
+                    <img src={{ url_for("static", filename="logo.png" ) }} alt="Glampedia Logo">
+                </a>
             </section>
             <section id="form">
                 <form action="/signup" method="POST" enctype="multipart/form-data">
