@@ -30,7 +30,6 @@
 
         .parent-page {
             display: flex;
-            border: 1px dotted;
             padding: 0px;
             background: linear-gradient(90deg, rgba(130, 186, 116, 0.6) 15%, rgba(0, 38, 84, 0) 15%), linear-gradient(90deg, rgba(255, 255, 255, 1) 85%, rgba(130, 186, 116, 0.6) 85%);
         }
@@ -93,8 +92,8 @@
             float: left;
             width: 160px;
             height: 130px;
-            margin-left: 25px;
-            margin-top: 15px;
+            margin-left: 30px;
+            margin-top: 20px;
 
         }
 
@@ -154,7 +153,8 @@
 <body>
     <div class="parent-page">
         <div class="child_left">
-            <a href="#" onclick="window.location.href='/'"><img class="header_img" src="../static/logo.png"></a>
+            <a href="#" onclick="window.location.href='/'"><img class="header_img" src={{ url_for("static",
+                    filename="logo.png" )}}></a>
         </div>
         <div class="child_center">
             <div id="g_list">
@@ -164,8 +164,9 @@
                     <h1 id="g_name">{{i.name}}</h1>
                     <h3 id="g_comment">{{i.comment}}</h3>
                     <p></p>
-                    <p id="g_address">주소 : {{i.address}}</p>
+                    <h3 id="g_address" style="margin-top: 60px;">주소 : {{i.address}}</h3>
                     <img id="g_map_img" src={{ url_for("static", filename=mmap_img )}} width="800" height="500">
+
                 {% endfor %}
 
             </div>
