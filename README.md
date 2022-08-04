@@ -45,7 +45,7 @@ This project is a mini project in innovation camp
 
 :family: 팀원
 
-- 배상훈 [[3bsh9254](https://github.com/bsh9254) ]
+- 배상훈 [[bsh9254](https://github.com/bsh9254) ]
 - 박세진 [[codesejin](https://github.com/codesejin)]
 - 박지연 [[Jeeyeonn](https://github.com/Jeeyeonn)]
 - 김진욱 [[sparklaunch](https://github.com/sparklaunch)]
