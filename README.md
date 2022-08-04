@@ -43,7 +43,7 @@ This project is a mini project in innovation camp
 -------------
 <br>
 
-<h2> :family: 팀원 </h2>
+:family: 팀원
 
 [배상훈](https://github.com/bsh9254) 
 [박세진](https://github.com/codesejin)
