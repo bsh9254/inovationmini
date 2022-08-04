@@ -117,8 +117,8 @@
 
         <a href="#" onclick="window.location.href='/'"><img class="header_img" src={{ url_for("static",
                 filename="logo.png" )}}></a>
-        {% if current_user %}
-        <h1 class="header_point">안녕하세요, {{ current_user }}님!<p></p>
+        {% if current_user_name %}
+        <h1 class="header_point">안녕하세요, {{ current_user_name }}님!<p></p>
             금주의 글램핑 추천 장소입니다.</h1>
         {% else %}
         <h1 class="header_point">안녕하세요, Guest님!<p></p>
@@ -136,8 +136,7 @@
         <div class="mycards">
             <div class="row row-cols-1 row-cols-md-3 g-4" id="cards-box">
                 {% for glamping in mainpage %}
-                {% set star=mainstar[glamping.num] %}
-
+                {% set star=mainstar[glamping.num|int] %}
                 <div class="col">
                     <div class="card h-100">
                         <a href="/detailpg/{{ glamping.num }}" onclick=detail({{ glamping.num }})><img src={{
@@ -159,7 +158,9 @@
 
             </div>
         </div>
-
+        <script>
+            function detail(data) { localStorage.setItem('mainnum', data); }
+        </script>
     </div>
 </body>
 

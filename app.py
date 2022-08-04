@@ -42,8 +42,6 @@ def home():
     counting_list=list([0]*len(glampings))
     current_user = get_jwt_identity()
 
-
-
     for i in range(len(glampings_star)):
         num=int(glampings_star[i]['num'])
         star_list[num]+=int(glampings_star[i]['star'])
@@ -58,9 +56,12 @@ def home():
     if current_user is None: # JWT 토큰 자체가 없을 때, 즉, 최초 접속 시.
         return render_template("mainpage.html",mainpage=glampings,mainstar=star_list)
     user = userDB.find_one({"username": current_user})
-    return render_template("mainpage.html", current_user_name=user["nickname"],
+    if user is not None:
+        return render_template("mainpage.html", current_user_name=user["nickname"],
                                current_user_img="photos/" + user["filename"],
                                current_user_intro=user["introduction"], mainpage = glampings,mainstar=star_list)
+    else:
+        return render_template("mainpage.html", mainpage = glampings, mainstar=star_list)
 
 
 
