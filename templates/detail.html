@@ -119,7 +119,7 @@
     </style>
 
     <script>
-
+/*
         // 메인 페이지에서 가져오는 num에 따라 글램핑 정보 다르게 보여주기
         $(document).ready(function () {
             show_glamping();
@@ -243,7 +243,16 @@
         <a href="#" onclick="window.location.href='/'"><img class="header_img" src="../static/logo.png"></a>
     </div>
     <div class="child_center">
-        <div id="g_list"></div>
+        <div id="g_list">
+            {% for i in gg_list %}
+            <img id="g_img" style="margin-bottom: 20px;" src={{i.img}} width="800" height="500">
+            <h1 id="g_name">{{i.name}}</h1>
+            <h3 id="g_comment">{{i.comment}}</h3>
+            <p></p>
+            <p id="g_address">주소 : {{i.address}}</p>
+            <img id="g_map_img" src={{ url_for("static", filename=mmap_img )}} width="800" height="500">
+            {% endfor %}
+        </div>
 
         <p class="grass-star" style="font-size:40px">⭐ {{detail_star}} </p>
 
