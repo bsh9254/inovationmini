@@ -122,15 +122,11 @@
 
         function save_comment() {
 
-            if (localStorage.getItem('mainnum')) {
-                var lastData = localStorage.getItem('mainnum')
-            }
-
             let comment = $('#comment').val()
             let star = $('#star').val()
             let name = $('#user_name').text()
-            let num = lastData
-
+            let num = localStorage.getItem("mainnum")
+            console.log(num)
             if (star != "--선택하기--") {
 
                 $.ajax({
@@ -160,12 +156,12 @@
             <div id="g_list">
 
                 {% for i in gg_list %}
-                    <img id="g_img" style="margin-bottom: 20px;" src={{i.img}} width="800" height="500">
-                    <h1 id="g_name">{{i.name}}</h1>
-                    <h3 id="g_comment">{{i.comment}}</h3>
-                    <p></p>
-                    <h3 id="g_address" style="margin-top: 60px;">주소 : {{i.address}}</h3>
-                    <img id="g_map_img" src={{ url_for("static", filename=mmap_img )}} width="800" height="500">
+                <img id="g_img" style="margin-bottom: 20px;" src={{i.img}} width="800" height="500">
+                <h1 id="g_name">{{i.name}}</h1>
+                <h3 id="g_comment">{{i.comment}}</h3>
+                <p></p>
+                <h3 id="g_address" style="margin-top: 60px;">주소 : {{i.address}}</h3>
+                <img id="g_map_img" src={{ url_for("static", filename=mmap_img )}} width="800" height="500">
 
                 {% endfor %}
 
