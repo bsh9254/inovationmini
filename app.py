@@ -57,7 +57,10 @@ def home():
     if current_user is None: # JWT 토큰 자체가 없을 때, 즉, 최초 접속 시.
         return render_template("mainpage.html",mainpage=glampings,mainstar=star_list)
     user = userDB.find_one({"username": current_user})
-    return render_template("mainpage.html", current_user = user["nickname"], mainpage = glampings,mainstar=star_list)
+    if user is not None:
+        return render_template("mainpage.html", current_user = user["nickname"], mainpage = glampings, mainstar = star_list)
+    else:
+        return render_template("mainpage.html", mainpage = glampings, mainstar = star_list)
 
 
 # 상세 페이지 라우팅
