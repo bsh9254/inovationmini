@@ -70,7 +70,7 @@ def detailinto(num):
     review_list = list(glampediaDB.reviews.find({'num': num}))
     glamping_list = list(glampediaDB.Glamping_info.find({'num': num}))
 
-    map_img = "map"+num+".JPG"
+    map_img = "/map_img/"+"map"+num+".JPG"
 
     sum = 0
 
