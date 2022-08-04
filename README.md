@@ -1,5 +1,3 @@
-<div align="center">
-
 <h2> 12조 </h2>
 <br>
 <h1> :earth_americas: 글램피디아 (Glampedia) </h1>
@@ -42,5 +40,3 @@
 -------------
 
 This project is a mini project in innovation camp
-
-</div>
