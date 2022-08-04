@@ -33,7 +33,7 @@ This project is a mini project in innovation camp
 -------------
 <br>
 
-기술스택
+:pushpin: 기술스택
 
 - 서버: AWS EC2. <br>
 - 백엔드: Flask + Jinja2. <br>
