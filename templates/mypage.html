@@ -177,7 +177,7 @@
                     for (let i = 0; i < rows.length; i++) {
                         let name = rows[i]['name']
 
-                        if (name == real_name) {
+                        if (name == real_name) {     //내가 쓴 리뷰만 가져오기
                             let comment = rows[i]['comment']
                             let star = rows[i]['star']
                             let star_image = '⭐'.repeat(star)
