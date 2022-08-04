@@ -1,8 +1,11 @@
 <h2> 12조 </h2>
 <br>
 <h1> :earth_americas: 글램피디아 (Glampedia) </h1>
-This project is a mini project in innovation camp
 <br>
+
+ :house: [서비스사이트](http://43.200.182.94/) / :video_camera: [시연영상](https://www.youtube.com/watch?v=yhnZKP5NcHI) <br>
+ This project is a mini project in innovation camp
+
 <br>
 <br>
 
