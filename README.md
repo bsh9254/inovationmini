@@ -3,6 +3,7 @@ This project is a mini project in innovation camp
 
 <br>
 <h1> :earth_americas: 글램피디아 (Glampedia) </h1>
+<img src="https://ifh.cc/g/545l40.jpg" width="400px" height="300px" >
 
  :house: [[ SITE ]](http://43.200.182.94/) / :video_camera: [[ VIDEO ]](https://www.youtube.com/watch?v=yhnZKP5NcHI) <br>
 
