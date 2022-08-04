@@ -211,6 +211,7 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
+            // 중복 확인 버튼 클릭 이벤트 핸들러.
             $("#no-redundancy").on("click", event => {
                 event.preventDefault();
                 const username = $("#username").val();
@@ -233,6 +234,7 @@
                 })
             });
 
+            // 비밀번호 확인 기능.
             $("#password-repeat").on("input", event => {
                 const repeatedPassword = $(event.target).val();
                 const password = $("#password").val();
@@ -243,6 +245,7 @@
                 }
             });
 
+            // 비밀번호 강도 측정기.
             function scorePassword(password) {
                 let score = 0;
                 if (!password) {
@@ -271,6 +274,7 @@
                 return parseInt(score);
             }
 
+            // 비밀번호 강도 계수 측정기.
             function checkPasswordStrength(score) {
                 if (score > 80) {
                     return "강함";
@@ -283,6 +287,7 @@
                 }
             }
 
+            // 비밀번호 강도 프로그레스바.
             $("#password").on("input", event => {
                 const password = $(event.target).val();
                 const passwordScore = scorePassword(password);
