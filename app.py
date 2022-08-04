@@ -34,11 +34,12 @@ def expired_token_loader(jwt_header, jwt_payload):
 @app.route("/", methods = ["GET"])
 @jwt_required(optional = True)
 def home():
+
     glampings = list(glampediaDB.Glamping_info.find({}, {'_id': False}))
     glampings_star=list(glampediaDB.reviews.find({}, {'_id': False}))
 
-    star_list=list([0]*1000)
-    counting_list=list([0]*1000)
+    star_list=list([0]*len(glampings))
+    counting_list=list([0]*len(glampings))
     current_user = get_jwt_identity()
 
 
@@ -57,10 +58,10 @@ def home():
     if current_user is None: # JWT 토큰 자체가 없을 때, 즉, 최초 접속 시.
         return render_template("mainpage.html",mainpage=glampings,mainstar=star_list)
     user = userDB.find_one({"username": current_user})
-    if user is not None:
-        return render_template("mainpage.html", current_user = user["nickname"], mainpage = glampings, mainstar = star_list)
-    else:
-        return render_template("mainpage.html", mainpage = glampings, mainstar = star_list)
+    return render_template("mainpage.html", current_user_name=user["nickname"],
+                               current_user_img="photos/" + user["filename"],
+                               current_user_intro=user["introduction"], mainpage = glampings,mainstar=star_list)
+
 
 
 # 상세 페이지 라우팅
