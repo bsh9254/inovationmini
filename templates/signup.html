@@ -216,7 +216,7 @@
                 const username = $("#username").val();
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost:5000/redundancy_check",
+                    url: "/redundancy_check",
                     data: {
                         username: username
                     },
