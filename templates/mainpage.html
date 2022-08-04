@@ -28,8 +28,9 @@
         * {
             font-family: 'Jua', sans-serif;
         }
-
+        /*Child Right 부분*/
         .loginbutton {
+
             float: right;
             margin-right: 20px;
         }
@@ -46,8 +47,8 @@
 
         /*상단 글씨 폰트, 크기 */
         .header_point {
-            font-family: 'Jua', sans-serif;
             margin: 50px 350px;
+            font-family: 'Jua', sans-serif;
             font-size: 30px;
             font-weight: 500;
             font-stretch: normal;
@@ -58,13 +59,14 @@
             color: #000000;
 
         }
-
+        /*상단 로고 프로필.. */
         .header {
+
             padding: 5px;
             text-align: center;
             background: linear-gradient(90deg, rgba(130, 186, 116, 0.6) 15%, rgba(0, 38, 84, 0) 15%), linear-gradient(90deg, rgba(255, 255, 255, 1) 85%, rgba(130, 186, 116, 0.6) 85%);
-            color: #a7a7a7;
-            font-size: 30px;
+            {#color: black;
+            font-size: 20px;#}
         }
 
         .wrap {
@@ -79,97 +81,28 @@
             width: 1000px;
         }
 
-        .d-block {
+        .profile {
+            display: flex;
+            flex-direction: column;
+            justify-items: center;
+            align-items: center;
+            text-align: center;
 
-            display: block;
-            width: auto;
-            height: 100%;
+            margin-top: 200px;
         }
 
     </style>
     <script>
 
-        $(document).ready(function () {
-            //listing();
-        });
+        {#$(document).ready(function () {
 
-        function listing() {
-            /*
-            $.ajax({
-                type: 'GET',
-                url: '/',
-                data: {},
-                success: function (response) {
-
-                    let rows = response['mains']
-
-                    let tops = response['top']
-
-
-                    let img1 = tops[0]['img']
-                    let img2 = tops[1]['img']
-                    let img3 = tops[2]['img']
-                    let temp =`<div class="carousel-item active">
-                                    <a><href="#" onclick="location.href='https://www.naver.com'"><img class="d-block w-100" src="${img1}" alt="First slide"></a>
-                               </div>
-                               <div class="carousel-item">
-                                    <a><href="#" onclick="location.href='https://www.naver.com'"><img class="d-block w-100" src="${img2}" alt="Second slide"></a>
-
-                               </div>
-                               <div class="carousel-item">
-                                    <a><href="#" onclick="location.href='https://www.naver.com'"><img class="d-block w-100" src="${img3}" alt="Third slide"></a>
-
-                               </div>`
-
-                    $('#carousel-box').append(temp)
-
-
-                    for (let j = 0; j < rows.length; j++) {
-                        let name = rows[j]['name']
-                        let comment = rows[j]['comment']
-                        let address = rows[j]['address']
-                        let image = rows[j]['img']
-                        let star = rows[j]['star']
-                        let num = rows[j]['num']
-                        star = '⭐'.repeat(star)
-                        let temp = `<div class="col">
-                                        <div class="card h-100">
-                                            <a href="#" onclick=detail(${num})><img src="${image}" class="card-img-top"></a>
-
-                                            <div class="card-body">
-                                                <h5 class="card-title">${name}</h5>
-                                                <p class="card-text">${address}</p>
-                                                <p>${star}</p>
-                                                <p class="mycomment">${comment}</p>
-                                            </div>
-                                        </div>
-                                    </div> `
-                        $('#cards-box').append(temp)
-                    }
-                }
-            })*/
-        }
+        });#}
 
         function detail(data) {
 
             localStorage.setItem('mainnum', data);
             location.href = '/detailpg'
         }
-
-        /*function posting() {
-            let url = $('#url').val()
-            let star = $('#star').val()
-            let comment = $('#comment').val()
-            $.ajax({
-                type: 'POST',
-                url: '/movie',
-                data: {url_give: url, star_give: star, comment_give: comment},
-                success: function (response) {
-                    alert(response['msg'])
-                    window.location.reload()
-                }
-            });
-        }*/
 
     </script>
 </head>
@@ -180,32 +113,30 @@
 
     <div class="header">
         <div class="loginbutton">
-            {% if current_user %}
-            <a href="/logout">
-                <button type="button" id="logout-button" class="btn btn-light">Log Out</button>
-            </a>
+            {% if current_user_name %}
+            <a href="/mypage"><button type="button" id="logout-button" class="btn btn-light">My page</button></a>
+            <a href="/logout"><button type="button" class="btn btn-light">Log Out</button></a>
+
+            <div class="profile">
+                <img src={{ url_for("static", filename=current_user_img ) }} width="100" , height="100">
+                <p class="nickname" id="user_name">{{ current_user_name }}</p>
+                <p>{{ current_user_intro }}</p>
+            </div>
+
             {% else %}
-            <a href="/login">
-                <button type="button" class="btn btn-light">Login</button>
-            </a>
-            <a href="/signup">
-                <button type="button" class="btn btn-light">Sign
-                    Up
-                </button>
-            </a>
+            <a href="/login"><button type="button" class="btn btn-light">Login</button></a>
+                <a href="/signup"><button type="button" class="btn btn-light">SignUp</button></a>
             {% endif %}
         </div>
 
         <a href="#" onclick="window.location.href='/'"><img class="header_img" src={{ url_for("static",
-            filename="logo.png" )}}></a>
+                filename="logo.png" )}}></a>
         {% if current_user %}
         <h1 class="header_point">안녕하세요, {{ current_user }}님!<p></p>
-            금주의 글램핑 추천 장소입니다.
-        </h1>
+            금주의 글램핑 추천 장소입니다.</h1>
         {% else %}
         <h1 class="header_point">안녕하세요, Guest님!<p></p>
-            금주의 글램핑 추천 장소입니다.
-        </h1>
+            금주의 글램핑 추천 장소입니다.</h1>
         {% endif %}
         <p></p>
         <p></p>
@@ -215,29 +146,29 @@
     </div>
 
     <div class="wrap">
+
         <div class="mycards">
             <div class="row row-cols-1 row-cols-md-3 g-4" id="cards-box">
                 {% for glamping in mainpage %}
-                {% set star=mainstar[glamping.num] %}
+                    {% set star=mainstar[glamping.num] %}
 
-                <div class="col">
-                    <div class="card h-100">
-                        <a href="/detailpg/{{ glamping.num }}" onclick=detail({{ glamping.num }})><img src={{ glamping.img
-                                                                                                       }}
-                                                                                                       class="card-img-top"></a>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ glamping.name }}</h5>
-                            <p class="card-text">{{ glamping.address }}</p>
-                            <p>{{ star }}</p>
-                            <p class="mycomment">{{ glamping.comment }}</p>
+                    <div class="col">
+                        <div class="card h-100">
+                            <a href="/detailpg/{{ glamping.num }}" onclick=detail({{ glamping.num }})><img src={{ glamping.img }}
+                                                                                        class="card-img-top"></a>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ glamping.name }}</h5>
+                                <p class="card-text">{{ glamping.address }}</p>
+                                <p>{{ star }}</p>
+                                <p class="mycomment">{{ glamping.comment }}</p>
 
-                            <div class="row row-cols-1 row-cols-md-3 g-4">
+                                <div class="row row-cols-1 row-cols-md-3 g-4">
 
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                </div>
+                    </div>
                 {% endfor %}
 
             </div>
