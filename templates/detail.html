@@ -8,20 +8,25 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
     <title>글램핑 안내</title>
     <style>
+        *{
+            font-family: 'Jua', sans-serif;
+        }
         .parent-page {
             display: flex;
             border: 1px dotted;
@@ -62,13 +67,13 @@
 
         }
 
-        .comment_btn>.form-control {
+        .comment_btn > .form-control {
             width: 70%;
             margin-right: 20px;
             font-size: 20px;
         }
 
-        .comment_btn>.btn btn-success {
+        .comment_btn > .btn btn-success {
             width: 30%;
         }
 
@@ -154,6 +159,7 @@
                 }
             });
         }
+
         /*
                 function show_reviews() {
                     if (localStorage.getItem('mainnum')) {
@@ -217,14 +223,13 @@
                 $.ajax({
                     type: "POST",
                     url: "/reviews",
-                    data: { comment_give: comment, star_give: star, num_give: num, name_give: name },
+                    data: {comment_give: comment, star_give: star, num_give: num, name_give: name},
                     success: function (response) {
                         alert(response['msg'])
                         window.location.reload()
                     }
                 })
-            }
-            else
+            } else
                 alert("별점을 선택하세요.")
 
         }
@@ -233,77 +238,83 @@
 </head>
 
 <body>
-    <div class="parent-page">
-        <div class="child_left">
-            <a href="#" onclick="window.location.href='/'"><img class="header_img" src="../static/logo.png"></a>
-        </div>
-        <div class="child_center">
-            <div id="g_list"></div>
-
-            <p class="grass-star" style="font-size:40px">⭐ {{detail_star}} </p>
-
-            {% if current_user_name %}
-            <!--평점 및 후기 등록하기-->
-            <div class="mypost">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="star">평점</label>
-                    <select class="form-select" id="star">
-                        <option selected>--선택하기--</option>
-                        <option value="1">⭐</option>
-                        <option value="2">⭐⭐</option>
-                        <option value="3">⭐⭐⭐</option>
-                        <option value="4">⭐⭐⭐⭐</option>
-                        <option value="5">⭐⭐⭐⭐⭐</option>
-                    </select>
-
-                </div>
-                <div class="comment_btn">
-                    <textarea class="form-control" placeholder="댓글로 후기를 남겨주세요." id="comment"></textarea>
-                    <label for="comment"></label>
-                    <button type="button" onclick="save_comment()" class="btn btn-success btn-lg">등록하기</button>
-                </div>
-
-
-            </div>
-            {% endif %}
-            <!-- 캠핑장 리뷰 후기-->
-            <div class="quote_card" id="review-box">
-
-
-
-                {% for rr_list in dateilpg %}
-                <div class="card-body">
-                    <blockquote class="blockquote mb-0">
-                        <p class="saved-header">
-                        <p class="saved-star">⭐ {{rr_list.star}} </p>
-                        <p class="saved-user">{{ rr_list.name }}</p>
-                        </p>
-                        <p>{{ rr_list.comment }}</p>
-                    </blockquote>
-                </div>
-                {% endfor %}
-
-            </div>
-
-
-        </div>
-
-        <div class="child_right">
-            {% if current_user_name %}
-            <div class="profile">
-                <img src={{ url_for("static", filename=current_user_img )}} width="100" , height="100">
-                <p class="nickname" id="user_name">{{ current_user_name }}</p>
-                <p>{{ current_user_intro }}</p>
-                <a href="/mypage"><button type="button" class="btn btn-light">MyPage</button></a>
-            </div>
-            {% else %}
-            <a href="/login"><button type="button" class="btn btn-light">Login</button></a>
-            <a href="/signup"><button type="button" class="btn btn-light">Sign
-                    Up</button></a>
-            {% endif %}
-
-        </div>
+<div class="parent-page">
+    <div class="child_left">
+        <a href="#" onclick="window.location.href='/'"><img class="header_img" src="../static/logo.png"></a>
     </div>
+    <div class="child_center">
+        <div id="g_list"></div>
+
+        <p class="grass-star" style="font-size:40px">⭐ {{detail_star}} </p>
+
+        {% if current_user_name %}
+        <!--평점 및 후기 등록하기-->
+        <div class="mypost">
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="star">평점</label>
+                <select class="form-select" id="star">
+                    <option selected>--선택하기--</option>
+                    <option value="1">⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                </select>
+
+            </div>
+            <div class="comment_btn">
+                <textarea class="form-control" placeholder="댓글로 후기를 남겨주세요." id="comment"></textarea>
+                <label for="comment"></label>
+                <button type="button" onclick="save_comment()" class="btn btn-success btn-lg">등록하기</button>
+            </div>
+
+
+        </div>
+        {% endif %}
+        <!-- 캠핑장 리뷰 후기-->
+        <div class="quote_card" id="review-box">
+
+
+            {% for rr_list in dateilpg %}
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p class="saved-header">
+                    <p class="saved-star">⭐ {{rr_list.star}} </p>
+                    <p class="saved-user">{{ rr_list.name }}</p>
+                    </p>
+                    <p>{{ rr_list.comment }}</p>
+                </blockquote>
+            </div>
+            {% endfor %}
+
+        </div>
+
+
+    </div>
+
+    <div class="child_right">
+        {% if current_user_name %}
+        <div class="profile">
+            <img src={{ url_for("static", filename=current_user_img )}} width="100" , height="100">
+            <p class="nickname" id="user_name">{{ current_user_name }}</p>
+            <p>{{ current_user_intro }}</p>
+            <a href="/mypage">
+                <button type="button" class="btn btn-light">MyPage</button>
+            </a>
+        </div>
+        {% else %}
+        <a href="/login">
+            <button type="button" class="btn btn-light">Login</button>
+        </a>
+        <a href="/signup">
+            <button type="button" class="btn btn-light">Sign
+                Up
+            </button>
+        </a>
+        {% endif %}
+
+    </div>
+</div>
 
 </body>
 
