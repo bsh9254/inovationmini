@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, url_for, redirect, make_response
+from flask import Flask, jsonify, render_template, request, url_for, redirect, make_response, json
 from pymongo import MongoClient
 from flask_jwt_extended import *
 from datetime import *
@@ -188,18 +188,24 @@ def login_process():
 def check_redundancy():
     username = request.form["username"]
     if username == "":
-        return jsonify({
+        response = jsonify({
             "message": "Empty"
         })
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
     user = userDB.find_one({"username": username})
     if user:
-        return jsonify({
+        response = jsonify({
             "message": "Already taken"
         })
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
     else:
-        return jsonify({
+        response = jsonify({
             "message": "Good to go"
         })
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
 
 # 로그아웃 처리 라우팅.
 @app.route("/logout", methods = ["GET"])
