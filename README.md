@@ -19,6 +19,7 @@ This project is a mini project in innovation camp
 <br>
 
 <h3> :wrench: 기능 목록 </h3> 
+
 - 더미 데이터를 기반으로, 사용자들의 평점을 포함한 별도의 로직으로 "추천" 카테고리를 메인 페이지에 배치 <br>
 - 회원가입 & 로그인 기능 구현 : 프로필 사진과 간단한 자기소개말도 함께 <br>
 - 리뷰 작성 기능 (상세 페이지), 글램핑장 상세 페이지에서, API를 활용한 지도 시각화 데이터 보여주기<br>
@@ -28,6 +29,7 @@ This project is a mini project in innovation camp
 <br>
 
 <h3> :scroll: 페이지 목록 </h3> 
+
 - 회원가입 <br>
 - 로그인 <br>
 - 메인 페이지  <br>
