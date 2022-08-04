@@ -141,7 +141,10 @@
         }
 
         .logo {
-            padding: 30px;
+            width: 160px;
+            height: 130px;
+            margin-top: 20px;
+            margin-left: 30px;
         }
 
         #right {
@@ -207,7 +210,7 @@
 
 <body>
     <a href="/">
-        <img class="logo" src="https://ifh.cc/g/azRkC0.png" alt="Glampedia Logo" width="15%">
+        <img class="logo" src={{ url_for("static", filename="logo.png" )}} alt="Glampedia Logo" width="15%">
     </a>
     <section id="main">
         <div class="profileimg">
